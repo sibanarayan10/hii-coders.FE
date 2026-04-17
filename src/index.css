@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #131313;
+  color: #e4e2e1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #353535; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #434653; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* antd Table — remove all cell borders */
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-tbody > tr > td { border-bottom: none !important; }
+.ant-table-wrapper .ant-table-thead > tr > th::before { display: none !important; }
+
+/* antd Tabs — flush to container edge */
+.ant-tabs-nav::before { border-bottom: none !important; }
+
+/* Problem title link */
+.problem-title-link {
+  font-size: 14px; font-weight: 600;
+  color: #e4e2e1; text-decoration: none;
+  transition: color 0.15s;
+}
+.problem-title-link:hover { color: #b1c5ff !important; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .problems-grid { grid-template-columns: 1fr !important; }
+  .stats-grid    { grid-template-columns: 1fr !important; }
+  .footer-grid   { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 640px) {
+  .footer-grid { grid-template-columns: 1fr !important; }
+}
