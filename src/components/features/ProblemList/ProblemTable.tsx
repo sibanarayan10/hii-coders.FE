@@ -1,5 +1,6 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useNavigate } from 'react-router-dom';
 import StatusIcon from '../../common/StatusIcon';
 import DifficultyBadge from '../../common/DifficultyBadge';
 import TopicTag from '../../common/TopicTag';
@@ -20,9 +21,9 @@ const buildColumns = (): ColumnsType<Problem> => [
     key: 'title',
     render: (title: string, record: Problem) => (
       <div>
-        <a href="#" className="problem-title-link">
+        <span className="problem-title-link" style={{ color: COLORS.primary, cursor: 'pointer' }}>
           {record.id}. {title}
-        </a>
+        </span>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
           {record.tags.map((tag) => (
             <TopicTag key={tag} label={tag} />
@@ -56,16 +57,23 @@ interface ProblemTableProps {
   problems: Problem[];
 }
 
-const ProblemTable = ({ problems }: ProblemTableProps) => (
-  <Table<Problem>
-    dataSource={problems}
-    columns={buildColumns()}
-    rowKey="id"
-    pagination={false}
-    showSorterTooltip={false}
-    onRow={() => ({ style: { cursor: 'pointer' } })}
-    style={{ borderRadius: 12, overflow: 'hidden' }}
-  />
-);
+const ProblemTable = ({ problems }: ProblemTableProps) => {
+  const navigate = useNavigate();
+
+  return (
+    <Table<Problem>
+      dataSource={problems}
+      columns={buildColumns()}
+      rowKey="id"
+      pagination={false}
+      showSorterTooltip={false}
+      onRow={(record) => ({
+        style: { cursor: 'pointer' },
+        onClick: () => navigate(`/problem/${record.id}`),
+      })}
+      style={{ borderRadius: 12, overflow: 'hidden' }}
+    />
+  );
+};
 
 export default ProblemTable;

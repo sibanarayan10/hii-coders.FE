@@ -1,5 +1,6 @@
 import { useProblems } from '../hooks/useProblems';
-import AppHeader from '../components/layout/AppHeader';
+import { Layout } from 'antd';
+import MainNav from '../components/layout/MainNav';
 import AppFooter from '../components/layout/AppFooter';
 import Sidebar from '../components/features/Sidebar';
 import ProblemList from '../components/features/ProblemList';
@@ -18,7 +19,8 @@ const ProblemsPage = () => {
   } = useProblems();
 
   return (
-    <>
+    <Layout style={{ minHeight: '100vh' }}>
+      <MainNav />
       <main
         style={{
           paddingTop: 80,
@@ -27,6 +29,7 @@ const ProblemsPage = () => {
           maxWidth: 1440,
           margin: '0 auto',
           minHeight: '100vh',
+          flex: 1,
         }}
       >
         <div
@@ -54,7 +57,7 @@ const ProblemsPage = () => {
 
       <AppFooter />
       <FAB />
-    </>
+    </Layout>
   );
 };
 

@@ -1,18 +1,17 @@
 import { Button, Space, Tooltip, Spin, Flex } from 'antd';
-import { CaretRightOutlined, SendOutlined, UndoOutlined, LoadingOutlined } from '@ant-design/icons';
+import { CaretRightOutlined, SendOutlined, LoadingOutlined } from '@ant-design/icons';
 import MonacoEditor from '@monaco-editor/react';
-import { usePersistedCode } from '../../../hooks/usePersistedCode';
 import { COLORS } from '../../../constants/theme';
 import { useState } from 'react';
 
 const MONACO_LANGUAGE_MAP: Record<string, string> = {
-  python3:    'python',
+  python3: 'python',
   javascript: 'javascript',
   typescript: 'typescript',
-  java:       'java',
-  cpp:        'cpp',
-  go:         'go',
-  rust:       'rust',
+  java: 'java',
+  cpp: 'cpp',
+  go: 'go',
+  rust: 'rust',
 };
 
 interface CodeEditorProps {
@@ -23,20 +22,39 @@ interface CodeEditorProps {
 }
 
 const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
-  const[code,setCode]=useState();
-  const onChange=(val:string)=>{
+  const [code, setCode] = useState<string>();
 
-  }
+  const debounce = (fn: any, delay: number) => {
+    let timer: any;
+
+    return (...args: any[]) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  };
+
+  const handleChange = (val: string) => {
+    //api call for saving the changes in the DB
+  };
+
+  const debouncedOnChange = debounce(handleChange, 500);
+
+  const onChange = (val: string) => {
+    setCode(val);
+    debouncedOnChange(val);
+  };
 
   return (
     <Flex
-    flex={1}
-    vertical
+      flex={1}
+      vertical
       style={{
         position: 'relative',
         overflow: 'hidden',
-        height:"100%",
-        minHeight:300
+        height: '100%',
+        minHeight: 300,
       }}
     >
       <MonacoEditor
@@ -46,15 +64,17 @@ const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
         theme="vs-dark"
         loading={
           <Flex
-          align="center"
-          justify="center"
-          flex={1}
+            align="center"
+            justify="center"
+            flex={1}
             style={{
               background: COLORS.surfaceContainerLowest,
               height: '100%',
             }}
           >
-            <Spin indicator={<LoadingOutlined style={{ color: COLORS.primary, fontSize: 24 }} spin />} />
+            <Spin
+              indicator={<LoadingOutlined style={{ color: COLORS.primary, fontSize: 24 }} spin />}
+            />
           </Flex>
         }
         onChange={(val) => onChange(val ?? '')}
@@ -62,7 +82,7 @@ const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
           fontSize: 13,
           fontFamily: "'Fira Code', 'Fira Mono', monospace",
           fontLigatures: true,
-          lineHeight: 22,       
+          lineHeight: 22,
           minimap: { enabled: false },
           scrollBeyondLastLine: false,
           lineNumbers: 'on',
@@ -85,7 +105,6 @@ const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
           contextmenu: true,
           suggest: { showKeywords: true },
         }}
-        
       />
 
       {/* Floating action buttons */}
