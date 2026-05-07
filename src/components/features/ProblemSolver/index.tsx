@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Layout, Spin, Splitter } from 'antd';
+import { Flex, Layout, Splitter } from 'antd';
 import ProblemDescription from './ProblemDescription';
 import EditorHeader from './EditorHeader';
 import CodeEditor from './CodeEditor';
@@ -21,8 +21,6 @@ const MONACO_LANGUAGE_MAP: Record<string, string> = {
 const PROBLEM_ID = 'two-sum';
 
 const ProblemSolver = () => {
-  debugger;
-
   const [language, setLanguage] = useState<string>('python3');
   const [sizes, setSizes] = useState<(number | string)[]>(['30%', '80%']);
   const [editorSize, setEditorSize] = useState<(number | string)[]>(['60%', '40%']);

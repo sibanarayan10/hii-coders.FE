@@ -11,6 +11,10 @@
     "format": "prettier --write src/**/*.{ts,tsx}"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.31.6",
+    "@editorjs/header": "^2.8.8",
+    "@editorjs/image": "^2.10.3",
+    "@editorjs/paragraph": "^2.11.7",
     "@monaco-editor/react": "^4.7.0",
     "@types/react-syntax-highlighter": "^15.5.13",
     "antd": "^5.17.0",
