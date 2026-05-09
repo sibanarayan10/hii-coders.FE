@@ -1,5 +1,6 @@
-import { useState, useMemo, useCallback } from 'react';
-import { MOCK_PROBLEMS, PAGE_SIZE, type Status, type Difficulty } from '../constants/problems';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { PAGE_SIZE, type Status, type Difficulty, Problem } from '../constants/problems';
+import ProblemService from '../services/ProblemService';
 
 export interface Filters {
   difficulties: Difficulty[];
@@ -9,7 +10,7 @@ export interface Filters {
 }
 
 export interface UseProblemsReturn {
-  problems: typeof MOCK_PROBLEMS;
+  problems: Problem[];
   total: number;
   totalAll: number;
   currentPage: number;
@@ -30,21 +31,37 @@ const INITIAL_FILTERS: Filters = {
 export const useProblems = (): UseProblemsReturn => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filters, setFilters] = useState<Filters>(INITIAL_FILTERS);
+  const [problems, setProblems] = useState<Problem[]>([]);
+
+  const getProblems = async () => {
+    try {
+      const res = await ProblemService.getProblems();
+      if (res.status) {
+        setProblems(res.data.content || []);
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const filteredProblems = useMemo(() => {
-    return MOCK_PROBLEMS.filter((problem) => {
+    return problems.filter((problem) => {
       if (filters.difficulties.length > 0 && !filters.difficulties.includes(problem.difficulty)) {
         return false;
       }
       if (filters.statuses.length > 0 && !filters.statuses.includes(problem.status)) {
         return false;
       }
-      if (filters.search.trim() && !problem.title.toLowerCase().includes(filters.search.toLowerCase())) {
+      if (
+        filters.search.trim() &&
+        !problem.title.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
         return false;
       }
       return true;
     });
-  }, [filters]);
+  }, [filters, problems]);
 
   const paginatedProblems = useMemo(() => {
     const start = (currentPage - 1) * PAGE_SIZE;
@@ -58,14 +75,20 @@ export const useProblems = (): UseProblemsReturn => {
     setCurrentPage(1);
   }, []);
 
-  const handlePageChange = useCallback((page: number) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
-  }, [totalPages]);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (page >= 1 && page <= totalPages) setCurrentPage(page);
+    },
+    [totalPages],
+  );
 
+  useEffect(() => {
+    getProblems();
+  }, []);
   return {
     problems: paginatedProblems,
     total: filteredProblems.length,
-    totalAll: MOCK_PROBLEMS.length,
+    totalAll: 30,
     currentPage,
     totalPages,
     pageSize: PAGE_SIZE,

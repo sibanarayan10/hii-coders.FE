@@ -6,6 +6,7 @@ import DifficultyBadge from '../../common/DifficultyBadge';
 import TopicTag from '../../common/TopicTag';
 import { COLORS } from '../../../constants/theme';
 import type { Problem } from '../../../constants/problems';
+import { ProblemCategoryLabel } from '../../../enums/ProblemCategory';
 
 const buildColumns = (): ColumnsType<Problem> => [
   {
@@ -22,11 +23,14 @@ const buildColumns = (): ColumnsType<Problem> => [
     render: (title: string, record: Problem) => (
       <div>
         <span className="problem-title-link" style={{ color: COLORS.primary, cursor: 'pointer' }}>
-          {record.id}. {title}
+          {title}
         </span>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
-          {record.tags.map((tag) => (
-            <TopicTag key={tag} label={tag} />
+          {record.category.map((tag) => (
+            <TopicTag
+              key={tag}
+              label={ProblemCategoryLabel[tag as keyof typeof ProblemCategoryLabel]}
+            />
           ))}
         </div>
       </div>
@@ -39,18 +43,18 @@ const buildColumns = (): ColumnsType<Problem> => [
     width: 120,
     render: (_val, record) => <DifficultyBadge difficulty={record.difficulty} />,
   },
-  {
-    title: 'Acceptance',
-    dataIndex: 'acceptance',
-    key: 'acceptance',
-    width: 120,
-    align: 'right' as const,
-    render: (acceptance: number) => (
-      <span style={{ fontSize: 13, fontFamily: 'monospace', color: COLORS.onSurfaceVariant }}>
-        {acceptance}%
-      </span>
-    ),
-  },
+  // {
+  //   title: 'Acceptance',
+  //   dataIndex: 'acceptance',
+  //   key: 'acceptance',
+  //   width: 120,
+  //   align: 'right' as const,
+  //   render: (acceptance: number) => (
+  //     <span style={{ fontSize: 13, fontFamily: 'monospace', color: COLORS.onSurfaceVariant }}>
+  //       {acceptance}%
+  //     </span>
+  //   ),
+  // },
 ];
 
 interface ProblemTableProps {

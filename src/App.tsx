@@ -8,6 +8,7 @@ import ProblemsPage from './pages/ProblemsPage';
 import ProblemDetailPage from './pages/ProblemDetailPage';
 import SolutionsPage from './pages/SolutionsPage';
 import DashboardPage from './pages/DashboardPage';
+import NotFoundPage from './pages/FallbackPage';
 
 const App = () => (
   <ConfigProvider theme={antdTheme}>
@@ -18,6 +19,7 @@ const App = () => (
         <Route path="/problem/:id" element={<ProblemDetailPage />} />
         <Route path="/problem/:id/solutions" element={<SolutionsPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   </ConfigProvider>

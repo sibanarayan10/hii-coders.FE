@@ -1,43 +1,49 @@
-import { Layout, Button, Space, Breadcrumb } from 'antd';
+import { Layout, Button, Space, Breadcrumb, Spin } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   HomeOutlined,
   UnorderedListOutlined,
   SolutionOutlined,
   ArrowLeftOutlined,
+  LoadingOutlined,
 } from '@ant-design/icons';
 import ProblemSolver from '../components/features/ProblemSolver';
 import { COLORS } from '../constants/theme';
-import { MOCK_PROBLEMS } from '../constants/problems';
+import { useEffect, useState } from 'react';
+import ProblemService from '../services/ProblemService';
+import { Problem } from '../constants/problems';
 
 const ProblemDetailPage = () => {
+  const [problem, setProblem] = useState<Problem>();
+  const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  // Find the problem by ID
-  const problem = MOCK_PROBLEMS.find((p) => p.id === Number(id));
+  const getProblemDetail = async () => {
+    if (!id) {
+      console.error('Something went wrong');
+      return;
+    }
+    try {
+      setLoading(true);
+      const res = await ProblemService.getProblemDetail(id);
+      if (res.data) {
+        setProblem(res.data);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  if (!problem) {
+  useEffect(() => {
+    getProblemDetail();
+  }, []);
+
+  if (loading) {
     return (
-      <Layout style={{ minHeight: '100vh', background: COLORS.background }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100vh',
-            flexDirection: 'column',
-            gap: 24,
-          }}
-        >
-          <h1 style={{ color: COLORS.onSurface, fontFamily: "'JetBrains Mono', monospace" }}>
-            Problem not found
-          </h1>
-          <Button type="primary" onClick={() => navigate('/problems')}>
-            Back to Problems
-          </Button>
-        </div>
-      </Layout>
+      <Spin indicator={<LoadingOutlined style={{ color: COLORS.primary, fontSize: 24 }} spin />} />
     );
   }
 
@@ -83,7 +89,6 @@ const ProblemDetailPage = () => {
                   </Space>
                 ),
                 onClick: () => navigate('/'),
-                style: { cursor: 'pointer' },
               },
               {
                 title: (
@@ -93,10 +98,9 @@ const ProblemDetailPage = () => {
                   </Space>
                 ),
                 onClick: () => navigate('/problems'),
-                style: { cursor: 'pointer' },
               },
               {
-                title: `${problem.id}. ${problem.title}`,
+                title: `${problem?.title}`,
               },
             ]}
             style={{
