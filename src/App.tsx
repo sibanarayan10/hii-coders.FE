@@ -9,18 +9,24 @@ import ProblemDetailPage from './pages/ProblemDetailPage';
 import SolutionsPage from './pages/SolutionsPage';
 import DashboardPage from './pages/DashboardPage';
 import NotFoundPage from './pages/FallbackPage';
+import { AuthProvider } from './contexts/AuthContext';
+import { SignUp } from './components/features/Form/SignUp';
 
 const App = () => (
   <ConfigProvider theme={antdTheme}>
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/problems" element={<ProblemsPage />} />
-        <Route path="/problem/:id" element={<ProblemDetailPage />} />
-        <Route path="/problem/:id/solutions" element={<SolutionsPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/problems" element={<ProblemsPage />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignUp />} />
+          <Route path="/problem/:id" element={<ProblemDetailPage />} />
+          <Route path="/problem/:id/solutions" element={<SolutionsPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   </ConfigProvider>
 );

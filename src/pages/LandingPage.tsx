@@ -8,6 +8,8 @@ import {
   ThunderboltOutlined,
   DashboardOutlined,
 } from '@ant-design/icons';
+import { useAuth } from '../contexts/AuthContext';
+import { UserRole } from '../enums/UserRole';
 
 const { Header, Content, Footer } = Layout;
 const { Paragraph } = Typography;
@@ -45,6 +47,7 @@ export default function LandingPage(): JSX.Element {
   const taglineText: string = '[ COMPILE_SKILLS . EXECUTE_DREAMS ]';
 
   const navigate = useNavigate();
+  const { getUserRole } = useAuth();
 
   useEffect(() => {
     let index = 0;
@@ -160,7 +163,9 @@ export default function LandingPage(): JSX.Element {
             <span className="nav-separator">:</span>
             <span>COMMUNITY</span>
           </a>
-          <Button className="auth-button">AUTH.LOGIN</Button>
+          <Button className="auth-button" onClick={() => navigate('/sign-in')}>
+            AUTH.LOGIN
+          </Button>
         </nav>
       </Header>
 
@@ -199,9 +204,16 @@ export default function LandingPage(): JSX.Element {
 
             <Button size="large" className="secondary-cta">
               <DashboardOutlined />
-              <span>VIEW_DASHBOARD</span>
+              <span>VIEW DASHBOARD</span>
               <span className="underscore">_</span>
             </Button>
+            {getUserRole() == UserRole.ADMIN && (
+              <Button size="large" className="secondary-cta">
+                <DashboardOutlined />
+                <span>VIEW ADMIN DASHBOARD</span>
+                <span className="underscore">_</span>
+              </Button>
+            )}
           </Space>
         </div>
 
