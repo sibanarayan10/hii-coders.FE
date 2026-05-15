@@ -6,11 +6,11 @@ import { antdTheme } from './constants/theme';
 import LandingPage from './pages/LandingPage';
 import ProblemsPage from './pages/ProblemsPage';
 import ProblemDetailPage from './pages/ProblemDetailPage';
-import SolutionsPage from './pages/SolutionsPage';
 import DashboardPage from './pages/DashboardPage';
 import NotFoundPage from './pages/FallbackPage';
 import { AuthProvider } from './contexts/AuthContext';
 import { SignUp } from './components/features/Form/SignUp';
+import AdminDashboard from './pages/AdminDashboardPage';
 
 const App = () => (
   <ConfigProvider theme={antdTheme}>
@@ -22,8 +22,10 @@ const App = () => (
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignUp />} />
           <Route path="/problem/:id" element={<ProblemDetailPage />} />
-          <Route path="/problem/:id/solutions" element={<SolutionsPage />} />
+          {/* <Route path="/problem/:id/solutions" element={<SolutionsPage />} /> */}
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AuthProvider>

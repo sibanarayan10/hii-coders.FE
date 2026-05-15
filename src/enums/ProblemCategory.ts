@@ -1,4 +1,153 @@
-export const ProblemCategoryLabel = {
-  HASH_MAP: 'HASHMAP',
-  ARRAY: 'ARRAY',
+export enum ProblemCategory {
+  ARRAY = 'ARRAY',
+
+  STRING = 'STRING',
+
+  LINKED_LIST = 'LINKED_LIST',
+
+  TREE = 'TREE',
+
+  BINARY_TREE = 'BINARY_TREE',
+
+  BINARY_SEARCH_TREE = 'BINARY_SEARCH_TREE',
+
+  GRAPH = 'GRAPH',
+
+  MATRIX = 'MATRIX',
+
+  HEAP = 'HEAP',
+
+  STACK = 'STACK',
+
+  QUEUE = 'QUEUE',
+
+  DEQUE = 'DEQUE',
+
+  HASH_MAP = 'HASH_MAP',
+
+  HASH_SET = 'HASH_SET',
+
+  TRIE = 'TRIE',
+
+  SEGMENT_TREE = 'SEGMENT_TREE',
+
+  BINARY_INDEXED_TREE = 'BINARY_INDEXED_TREE',
+
+  UNION_FIND = 'UNION_FIND',
+
+  DYNAMIC_PROGRAMMING = 'DYNAMIC_PROGRAMMING',
+
+  BACKTRACKING = 'BACKTRACKING',
+
+  RECURSION = 'RECURSION',
+
+  DIVIDE_AND_CONQUER = 'DIVIDE_AND_CONQUER',
+
+  GREEDY = 'GREEDY',
+
+  BINARY_SEARCH = 'BINARY_SEARCH',
+
+  TWO_POINTERS = 'TWO_POINTERS',
+
+  SLIDING_WINDOW = 'SLIDING_WINDOW',
+
+  FAST_SLOW_POINTERS = 'FAST_SLOW_POINTERS',
+
+  MERGE_INTERVALS = 'MERGE_INTERVALS',
+
+  CYCLIC_SORT = 'CYCLIC_SORT',
+
+  TOPOLOGICAL_SORT = 'TOPOLOGICAL_SORT',
+
+  BFS = 'BFS',
+
+  DFS = 'DFS',
+
+  SHORTEST_PATH = 'SHORTEST_PATH',
+
+  MINIMUM_SPANNING_TREE = 'MINIMUM_SPANNING_TREE',
+
+  BIT_MANIPULATION = 'BIT_MANIPULATION',
+
+  MATH = 'MATH',
+
+  GEOMETRY = 'GEOMETRY',
+
+  SIMULATION = 'SIMULATION',
+
+  DESIGN = 'DESIGN',
+
+  CONCURRENCY = 'CONCURRENCY',
+
+  RANDOMIZED = 'RANDOMIZED',
+
+  RESERVOIR_SAMPLING = 'RESERVOIR_SAMPLING',
+
+  MONOTONIC_STACK = 'MONOTONIC_STACK',
+
+  MONOTONIC_QUEUE = 'MONOTONIC_QUEUE',
+
+  PREFIX_SUM = 'PREFIX_SUM',
+
+  SUFFIX_ARRAY = 'SUFFIX_ARRAY',
+
+  STRING_MATCHING = 'STRING_MATCHING',
+
+  GAME_THEORY = 'GAME_THEORY',
+
+  MEMOIZATION = 'MEMOIZATION',
+
+  TABULATION = 'TABULATION',
+}
+export const ProblemCategoryLabel: Record<ProblemCategory, string> = {
+  [ProblemCategory.ARRAY]: 'ARRAY',
+  [ProblemCategory.STRING]: 'STRING',
+  [ProblemCategory.LINKED_LIST]: 'LINKED LIST',
+  [ProblemCategory.TREE]: 'TREE',
+  [ProblemCategory.BINARY_TREE]: 'BINARY TREE',
+  [ProblemCategory.BINARY_SEARCH_TREE]: 'BINARY SEARCH TREE',
+  [ProblemCategory.GRAPH]: 'GRAPH',
+  [ProblemCategory.MATRIX]: 'MATRIX',
+  [ProblemCategory.HEAP]: 'HEAP',
+  [ProblemCategory.STACK]: 'STACK',
+  [ProblemCategory.QUEUE]: 'QUEUE',
+  [ProblemCategory.DEQUE]: 'DEQUE',
+  [ProblemCategory.HASH_MAP]: 'HASH MAP',
+  [ProblemCategory.HASH_SET]: 'HASH SET',
+  [ProblemCategory.TRIE]: 'TRIE',
+  [ProblemCategory.SEGMENT_TREE]: 'SEGMENT TREE',
+  [ProblemCategory.BINARY_INDEXED_TREE]: 'BINARY INDEXED TREE',
+  [ProblemCategory.UNION_FIND]: 'UNION FIND',
+  [ProblemCategory.DYNAMIC_PROGRAMMING]: 'DYNAMIC PROGRAMMING',
+  [ProblemCategory.BACKTRACKING]: 'BACKTRACKING',
+  [ProblemCategory.RECURSION]: 'RECURSION',
+  [ProblemCategory.DIVIDE_AND_CONQUER]: 'DIVIDE AND CONQUER',
+  [ProblemCategory.GREEDY]: 'GREEDY',
+  [ProblemCategory.BINARY_SEARCH]: 'BINARY SEARCH',
+  [ProblemCategory.TWO_POINTERS]: 'TWO POINTERS',
+  [ProblemCategory.SLIDING_WINDOW]: 'SLIDING WINDOW',
+  [ProblemCategory.FAST_SLOW_POINTERS]: 'FAST & SLOW POINTERS',
+  [ProblemCategory.MERGE_INTERVALS]: 'MERGE INTERVALS',
+  [ProblemCategory.CYCLIC_SORT]: 'CYCLIC SORT',
+  [ProblemCategory.TOPOLOGICAL_SORT]: 'TOPOLOGICAL SORT',
+  [ProblemCategory.BFS]: 'BFS',
+  [ProblemCategory.DFS]: 'DFS',
+  [ProblemCategory.SHORTEST_PATH]: 'SHORTEST PATH',
+  [ProblemCategory.MINIMUM_SPANNING_TREE]: 'MINIMUM SPANNING TREE',
+  [ProblemCategory.BIT_MANIPULATION]: 'BIT MANIPULATION',
+  [ProblemCategory.MATH]: 'MATH',
+  [ProblemCategory.GEOMETRY]: 'GEOMETRY',
+  [ProblemCategory.SIMULATION]: 'SIMULATION',
+  [ProblemCategory.DESIGN]: 'DESIGN',
+  [ProblemCategory.CONCURRENCY]: 'CONCURRENCY',
+  [ProblemCategory.RANDOMIZED]: 'RANDOMIZED',
+  [ProblemCategory.RESERVOIR_SAMPLING]: 'RESERVOIR SAMPLING',
+  [ProblemCategory.MONOTONIC_STACK]: 'MONOTONIC STACK',
+  [ProblemCategory.MONOTONIC_QUEUE]: 'MONOTONIC QUEUE',
+  [ProblemCategory.PREFIX_SUM]: 'PREFIX SUM',
+  [ProblemCategory.SUFFIX_ARRAY]: 'SUFFIX ARRAY',
+  [ProblemCategory.STRING_MATCHING]: 'STRING MATCHING',
+  [ProblemCategory.GAME_THEORY]: 'GAME THEORY',
+  [ProblemCategory.MEMOIZATION]: 'MEMOIZATION',
+  [ProblemCategory.TABULATION]: 'TABULATION',
 };

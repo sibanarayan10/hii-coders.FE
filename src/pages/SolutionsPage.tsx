@@ -27,10 +27,9 @@ import {
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { COLORS } from '../constants/theme';
-import { MOCK_PROBLEMS } from '../constants/problems';
 import MainNav from '../components/layout/MainNav';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
 // Mock solutions data
 const MOCK_SOLUTIONS = [
@@ -52,7 +51,8 @@ const MOCK_SOLUTIONS = [
             return [seen[complement], i]
         seen[num] = i
     return []`,
-    explanation: 'This solution uses a hash map to store numbers we\'ve seen. As we iterate, we check if the complement (target - current number) exists in our map. This gives us O(n) time complexity with a single pass.',
+    explanation:
+      "This solution uses a hash map to store numbers we've seen. As we iterate, we check if the complement (target - current number) exists in our map. This gives us O(n) time complexity with a single pass.",
     timeComplexity: 'O(n)',
     spaceComplexity: 'O(n)',
     likes: 342,
@@ -90,7 +90,8 @@ const MOCK_SOLUTIONS = [
     
     return [];
 }`,
-    explanation: 'This two-pointer solution sorts the array first while keeping track of original indices. We then use two pointers moving from both ends to find the pair. Note: sorting adds O(n log n) complexity.',
+    explanation:
+      'This two-pointer solution sorts the array first while keeping track of original indices. We then use two pointers moving from both ends to find the pair. Note: sorting adds O(n log n) complexity.',
     timeComplexity: 'O(n log n)',
     spaceComplexity: 'O(n)',
     likes: 189,
@@ -123,7 +124,8 @@ public:
         return {};
     }
 };`,
-    explanation: 'C++ implementation using STL unordered_map for O(1) average lookup. Uses iterators for clean code and follows modern C++ best practices.',
+    explanation:
+      'C++ implementation using STL unordered_map for O(1) average lookup. Uses iterators for clean code and follows modern C++ best practices.',
     timeComplexity: 'O(n)',
     spaceComplexity: 'O(n)',
     likes: 256,
@@ -137,12 +139,6 @@ const SolutionsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState<string>('most-liked');
-
-  const problem = MOCK_PROBLEMS.find((p) => p.id === Number(id));
-
-  if (!problem) {
-    return <div>Problem not found</div>;
-  }
 
   return (
     <Layout style={{ minHeight: '100vh', background: COLORS.background }}>
@@ -248,10 +244,7 @@ const SolutionsPage = () => {
                 <Row justify="space-between" align="middle" style={{ marginBottom: 12 }}>
                   <Col>
                     <Space>
-                      <Avatar
-                        icon={<UserOutlined />}
-                        style={{ background: COLORS.primary }}
-                      />
+                      <Avatar icon={<UserOutlined />} style={{ background: COLORS.primary }} />
                       <div>
                         <div
                           style={{

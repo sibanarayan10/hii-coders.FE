@@ -5,6 +5,7 @@ import EditorHeader from './EditorHeader';
 import CodeEditor from './CodeEditor';
 import ConsolePanel from './ConsolePanel';
 import { COLORS } from '../../../constants/theme';
+import { useParams } from 'react-router-dom';
 
 const { Content } = Layout;
 
@@ -25,6 +26,8 @@ const ProblemSolver = () => {
   const [sizes, setSizes] = useState<(number | string)[]>(['30%', '80%']);
   const [editorSize, setEditorSize] = useState<(number | string)[]>(['60%', '40%']);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  const { id } = useParams<{ id: string }>();
 
   const handleRun = (): void => {
     console.log('Run triggered');
@@ -70,7 +73,7 @@ const ProblemSolver = () => {
                   language={language}
                   onRun={handleRun}
                   onSubmit={handleSubmit}
-                  problemId="1"
+                  problemId={id || ''}
                 />
               </Splitter.Panel>
               <Splitter.Panel size={editorSize[1]}>

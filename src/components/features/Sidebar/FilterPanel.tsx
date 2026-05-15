@@ -2,25 +2,25 @@ import { Checkbox } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import SectionLabel from '../../common/SectionLabel';
 import { COLORS } from '../../../constants/theme';
-import { DIFFICULTY, STATUS, type Difficulty, type Status } from '../../../constants/problems';
+import { Difficulty, STATUS, type Status } from '../../../constants/problems';
 
 interface DifficultyActiveColor {
   bg: string;
   color: string;
 }
 
-const DIFFICULTY_OPTIONS: Difficulty[] = [DIFFICULTY.EASY, DIFFICULTY.MEDIUM, DIFFICULTY.HARD];
+const DIFFICULTY_OPTIONS: Difficulty[] = [Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD];
 
 const STATUS_OPTIONS: { value: Status; label: string }[] = [
-  { value: STATUS.TODO,      label: 'Todo'      },
-  { value: STATUS.SOLVED,    label: 'Solved'    },
+  { value: STATUS.TODO, label: 'Todo' },
+  { value: STATUS.SOLVED, label: 'Solved' },
   { value: STATUS.ATTEMPTED, label: 'Attempted' },
 ];
 
 const DIFFICULTY_ACTIVE_COLORS: Record<Difficulty, DifficultyActiveColor> = {
-  [DIFFICULTY.EASY]:   { bg: '#13a650', color: '#003112' },
-  [DIFFICULTY.MEDIUM]: { bg: '#7f4d00', color: '#ffc483' },
-  [DIFFICULTY.HARD]:   { bg: '#93000a', color: '#ffdad6' },
+  [Difficulty.EASY]: { bg: '#13a650', color: '#003112' },
+  [Difficulty.MEDIUM]: { bg: '#7f4d00', color: '#ffc483' },
+  [Difficulty.HARD]: { bg: '#93000a', color: '#ffdad6' },
 };
 
 interface FilterPanelProps {
@@ -56,7 +56,16 @@ const FilterPanel = ({
 
       {/* Difficulty */}
       <div style={{ marginBottom: 24 }}>
-        <p style={{ fontSize: 10, fontWeight: 700, color: COLORS.outline, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>
+        <p
+          style={{
+            fontSize: 10,
+            fontWeight: 700,
+            color: COLORS.outline,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginBottom: 12,
+          }}
+        >
           Difficulty
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -88,12 +97,24 @@ const FilterPanel = ({
 
       {/* Status */}
       <div>
-        <p style={{ fontSize: 10, fontWeight: 700, color: COLORS.outline, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>
+        <p
+          style={{
+            fontSize: 10,
+            fontWeight: 700,
+            color: COLORS.outline,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginBottom: 12,
+          }}
+        >
           Status
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {STATUS_OPTIONS.map((opt) => (
-            <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+            <label
+              key={opt.value}
+              style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}
+            >
               <Checkbox
                 checked={selectedStatuses.includes(opt.value)}
                 onChange={(e) => toggleStatus(e, opt.value)}
@@ -101,7 +122,9 @@ const FilterPanel = ({
               <span
                 style={{
                   fontSize: 14,
-                  color: selectedStatuses.includes(opt.value) ? COLORS.onSurface : COLORS.onSurfaceVariant,
+                  color: selectedStatuses.includes(opt.value)
+                    ? COLORS.onSurface
+                    : COLORS.onSurfaceVariant,
                   transition: 'color 0.15s',
                 }}
               >

@@ -1,6 +1,6 @@
 export enum UserRole {
-  USER,
-  ADMIN,
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }
 
 export const UserRoleLabel = {

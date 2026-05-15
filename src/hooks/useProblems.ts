@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { PAGE_SIZE, type Status, type Difficulty, Problem } from '../constants/problems';
+import { PAGE_SIZE, type Status, Problem, Difficulty, STATUS } from '../constants/problems';
 import ProblemService from '../services/ProblemService';
 
 export interface Filters {
@@ -50,7 +50,10 @@ export const useProblems = (): UseProblemsReturn => {
       if (filters.difficulties.length > 0 && !filters.difficulties.includes(problem.difficulty)) {
         return false;
       }
-      if (filters.statuses.length > 0 && !filters.statuses.includes(problem.status)) {
+      if (
+        filters.statuses.length > 0 &&
+        !filters.statuses.includes(problem.status || STATUS.TODO)
+      ) {
         return false;
       }
       if (

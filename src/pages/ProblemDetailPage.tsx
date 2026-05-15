@@ -1,51 +1,17 @@
 import { Layout, Button, Space, Breadcrumb, Spin } from 'antd';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   HomeOutlined,
   UnorderedListOutlined,
   SolutionOutlined,
   ArrowLeftOutlined,
-  LoadingOutlined,
 } from '@ant-design/icons';
 import ProblemSolver from '../components/features/ProblemSolver';
 import { COLORS } from '../constants/theme';
-import { useEffect, useState } from 'react';
-import ProblemService from '../services/ProblemService';
-import { Problem } from '../constants/problems';
 
 const ProblemDetailPage = () => {
-  const [problem, setProblem] = useState<Problem>();
-  const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
-  const getProblemDetail = async () => {
-    if (!id) {
-      console.error('Something went wrong');
-      return;
-    }
-    try {
-      setLoading(true);
-      const res = await ProblemService.getProblemDetail(id);
-      if (res.data) {
-        setProblem(res.data);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getProblemDetail();
-  }, []);
-
-  if (loading) {
-    return (
-      <Spin indicator={<LoadingOutlined style={{ color: COLORS.primary, fontSize: 24 }} spin />} />
-    );
-  }
 
   return (
     <Layout style={{ height: '100vh', overflow: 'hidden' }}>
@@ -100,7 +66,7 @@ const ProblemDetailPage = () => {
                 onClick: () => navigate('/problems'),
               },
               {
-                title: `${problem?.title}`,
+                title: `${''}`,
               },
             ]}
             style={{

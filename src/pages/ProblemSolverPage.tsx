@@ -22,7 +22,6 @@ const ProblemSolverPage = () => {
 export default ProblemSolverPage;
 
 const TabChildren = ({ tabSelection }: { tabSelection: Tab }) => {
-  debugger;
   switch (tabSelection) {
     case 'explore':
       return <ProblemsPage />;

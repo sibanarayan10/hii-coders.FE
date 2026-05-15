@@ -35,11 +35,9 @@ const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
     };
   };
 
-  const handleChange = (val: string) => {
-    //api call for saving the changes in the DB
-  };
+  const handleChange = (val: string) => {};
 
-  const debouncedOnChange = debounce(handleChange, 500);
+  const debouncedOnChange = debounce(handleChange, 1.1);
 
   const onChange = (val: string) => {
     setCode(val);
@@ -100,7 +98,6 @@ const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
           },
           padding: { top: 24, bottom: 80 },
           cursorBlinking: 'smooth',
-          cursorSmoothCaretAnimation: 'on',
           smoothScrolling: true,
           contextmenu: true,
           suggest: { showKeywords: true },

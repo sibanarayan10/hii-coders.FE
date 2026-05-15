@@ -1,5 +1,5 @@
 import { COLORS } from '../../../constants/theme';
-import { DIFFICULTY, type Difficulty } from '../../../constants/problems';
+import { Difficulty } from '../../../constants/problems';
 
 interface BadgeConfig {
   bg: string;
@@ -7,9 +7,9 @@ interface BadgeConfig {
 }
 
 const BADGE_CONFIG: Record<Difficulty, BadgeConfig> = {
-  [DIFFICULTY.EASY]:   { bg: COLORS.secondaryContainer, color: COLORS.onSecondaryContainer },
-  [DIFFICULTY.MEDIUM]: { bg: COLORS.tertiaryContainer,  color: COLORS.onTertiaryContainer  },
-  [DIFFICULTY.HARD]:   { bg: COLORS.errorContainer,     color: COLORS.onErrorContainer     },
+  [Difficulty.EASY]: { bg: COLORS.secondaryContainer, color: COLORS.onSecondaryContainer },
+  [Difficulty.MEDIUM]: { bg: COLORS.tertiaryContainer, color: COLORS.onTertiaryContainer },
+  [Difficulty.HARD]: { bg: COLORS.errorContainer, color: COLORS.onErrorContainer },
 };
 
 interface DifficultyBadgeProps {
@@ -17,7 +17,7 @@ interface DifficultyBadgeProps {
 }
 
 const DifficultyBadge = ({ difficulty }: DifficultyBadgeProps) => {
-  const config = BADGE_CONFIG[difficulty] ?? BADGE_CONFIG[DIFFICULTY.EASY];
+  const config = BADGE_CONFIG[difficulty] ?? BADGE_CONFIG[Difficulty.EASY];
   return (
     <span
       style={{

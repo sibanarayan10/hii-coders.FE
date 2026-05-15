@@ -12,7 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import MainNav from '../components/layout/MainNav';
 import { COLORS } from '../constants/theme';
-import { DIFFICULTY, STATUS } from '../constants/problems';
+import { Difficulty, STATUS } from '../constants/problems';
 
 const { Title, Text } = Typography;
 
@@ -40,7 +40,7 @@ const DashboardPage = () => {
       problemId: 15,
       title: 'Jump Game',
       status: 'Solved',
-      difficulty: DIFFICULTY.MEDIUM,
+      difficulty: Difficulty.MEDIUM,
       timestamp: '2 hours ago',
       language: 'Python',
     },
@@ -48,7 +48,7 @@ const DashboardPage = () => {
       problemId: 7,
       title: 'Container With Most Water',
       status: 'Attempted',
-      difficulty: DIFFICULTY.MEDIUM,
+      difficulty: Difficulty.MEDIUM,
       timestamp: '5 hours ago',
       language: 'JavaScript',
     },
@@ -56,7 +56,7 @@ const DashboardPage = () => {
       problemId: 20,
       title: 'Longest Common Subsequence',
       status: 'Solved',
-      difficulty: DIFFICULTY.MEDIUM,
+      difficulty: Difficulty.MEDIUM,
       timestamp: '1 day ago',
       language: 'Python',
     },
@@ -310,7 +310,9 @@ const DashboardPage = () => {
                       marginBottom: 8,
                     }}
                   >
-                    <Text style={{ fontFamily: "'Space Mono', monospace", color: COLORS.secondary }}>
+                    <Text
+                      style={{ fontFamily: "'Space Mono', monospace", color: COLORS.secondary }}
+                    >
                       Easy
                     </Text>
                     <Text

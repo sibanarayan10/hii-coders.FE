@@ -208,7 +208,11 @@ export default function LandingPage(): JSX.Element {
               <span className="underscore">_</span>
             </Button>
             {getUserRole() == UserRole.ADMIN && (
-              <Button size="large" className="secondary-cta">
+              <Button
+                size="large"
+                className="secondary-cta"
+                onClick={() => navigate('/admin/dashboard')}
+              >
                 <DashboardOutlined />
                 <span>VIEW ADMIN DASHBOARD</span>
                 <span className="underscore">_</span>

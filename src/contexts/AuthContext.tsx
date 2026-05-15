@@ -5,7 +5,7 @@ import { UserRole } from '../enums/UserRole';
 import UserService from '../services/UserService';
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   role: UserRole;
@@ -29,8 +29,6 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const navigate = useNavigate();
 
   const getMe = async () => {
     try {

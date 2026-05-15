@@ -5,7 +5,7 @@ import StatusIcon from '../../common/StatusIcon';
 import DifficultyBadge from '../../common/DifficultyBadge';
 import TopicTag from '../../common/TopicTag';
 import { COLORS } from '../../../constants/theme';
-import type { Problem } from '../../../constants/problems';
+import { STATUS, type Problem } from '../../../constants/problems';
 import { ProblemCategoryLabel } from '../../../enums/ProblemCategory';
 
 const buildColumns = (): ColumnsType<Problem> => [
@@ -14,27 +14,26 @@ const buildColumns = (): ColumnsType<Problem> => [
     dataIndex: 'status',
     key: 'status',
     width: 64,
-    render: (_val, record) => <StatusIcon status={record.status} />,
+    render: (_val, record) => <StatusIcon status={record.status || STATUS.TODO} />,
   },
   {
     title: 'Problem Title',
     dataIndex: 'title',
     key: 'title',
-    render: (title: string, record: Problem) => (
-      <div>
-        <span className="problem-title-link" style={{ color: COLORS.primary, cursor: 'pointer' }}>
-          {title}
-        </span>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
-          {record.category.map((tag) => (
-            <TopicTag
-              key={tag}
-              label={ProblemCategoryLabel[tag as keyof typeof ProblemCategoryLabel]}
-            />
-          ))}
+    render: (title: string, record: Problem) => {
+      return (
+        <div>
+          <span className="problem-title-link" style={{ color: COLORS.primary, cursor: 'pointer' }}>
+            {title}
+          </span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+            {record.categories.map((tag) => (
+              <TopicTag key={tag} label={ProblemCategoryLabel[tag]} />
+            ))}
+          </div>
         </div>
-      </div>
-    ),
+      );
+    },
   },
   {
     title: 'Difficulty',
