@@ -1,3 +1,4 @@
+import { Card, Space } from 'antd';
 import StatsRow from './StatsRow';
 import ProblemTable from './ProblemTable';
 import TablePagination from './TablePagination';
@@ -21,11 +22,17 @@ const ProblemList = ({
   totalPages,
   onPageChange,
 }: ProblemListProps) => (
-  <section>
+  <Space direction="vertical" size="large" style={{ width: '100%' }}>
     <StatsRow />
-    <div
+    <Card
+      styles={{
+        body: {
+          padding: 0,
+        }
+      }}
       style={{
         background: COLORS.surfaceContainerLow,
+        borderColor: COLORS.outlineVariant,
         borderRadius: 12,
         overflow: 'hidden',
         marginBottom: 48,
@@ -41,8 +48,8 @@ const ProblemList = ({
         totalPages={totalPages}
         onPageChange={onPageChange}
       />
-    </div>
-  </section>
+    </Card>
+  </Space>
 );
 
 export default ProblemList;

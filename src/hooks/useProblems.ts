@@ -35,11 +35,10 @@ export const useProblems = (): UseProblemsReturn => {
 
   const getProblems = async () => {
     try {
-      const res = await ProblemService.getProblems();
+      const res = await ProblemService.getProblems(filters);
       if (res.status) {
         setProblems(res.data.content || []);
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +86,7 @@ export const useProblems = (): UseProblemsReturn => {
 
   useEffect(() => {
     getProblems();
-  }, []);
+  }, [filters]);
   return {
     problems: paginatedProblems,
     total: filteredProblems.length,

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { antdTheme } from './constants/theme';
 
 // Pages
-import LandingPage from './pages/LandingPage';
+import { LandingPage } from './pages/LandingPage';
 import ProblemsPage from './pages/ProblemsPage';
 import ProblemDetailPage from './pages/ProblemDetailPage';
 import DashboardPage from './pages/DashboardPage';

@@ -169,3 +169,15 @@ export const antdTheme: ThemeConfig = {
     },
   },
 };
+
+export const THEME = {
+  bg: "#0a0f1e",
+  bgCard: "#0d1530",
+  bgCardBorder: "#1a2545",
+  accent: "#6c63ff",
+  accentGreen: "#00e5a0",
+  accentBlue: "#4fa3ff",
+  textPrimary: "#e8eaf6",
+  textSecondary: "#7986a8",
+  navBg: "rgba(10,15,30,0.85)",
+};

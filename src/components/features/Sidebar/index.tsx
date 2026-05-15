@@ -1,4 +1,4 @@
-import CompanyCollections from './CompanyCollections';
+import { Space } from 'antd';
 import FilterPanel from './FilterPanel';
 import type { Filters } from '../../../hooks/useProblems';
 
@@ -13,18 +13,18 @@ const Sidebar = ({ filters, onFilterChange }: SidebarProps) => {
   };
 
   return (
-    <aside style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-      <CompanyCollections
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      {/* <CompanyCollections
         selectedCompany={filters.company}
         onSelect={handleCompanySelect}
-      />
+      /> */}
       <FilterPanel
         selectedDifficulties={filters.difficulties}
         selectedStatuses={filters.statuses}
         onDifficultyChange={(difficulties) => onFilterChange({ ...filters, difficulties })}
         onStatusChange={(statuses) => onFilterChange({ ...filters, statuses })}
       />
-    </aside>
+    </Space>
   );
 };
 

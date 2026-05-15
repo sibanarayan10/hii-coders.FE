@@ -2,7 +2,7 @@ import { Button, Space, Tooltip, Spin, Flex } from 'antd';
 import { CaretRightOutlined, SendOutlined, LoadingOutlined } from '@ant-design/icons';
 import MonacoEditor from '@monaco-editor/react';
 import { COLORS } from '../../../constants/theme';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 const MONACO_LANGUAGE_MAP: Record<string, string> = {
   python3: 'python',
@@ -43,7 +43,35 @@ const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
     setCode(val);
     debouncedOnChange(val);
   };
-
+  const editorOption = useMemo(
+    () => ({
+      fontSize: 13,
+      fontFamily: "'Fira Code', 'Fira Mono', monospace",
+      fontLigatures: true,
+      lineHeight: 22,
+      minimap: { enabled: false },
+      scrollBeyondLastLine: false,
+      lineNumbers: 'on',
+      lineNumbersMinChars: 3,
+      renderLineHighlight: 'line',
+      tabSize: 4,
+      insertSpaces: true,
+      wordWrap: 'off',
+      folding: true,
+      bracketPairColorization: { enabled: true },
+      automaticLayout: true,
+      scrollbar: {
+        verticalScrollbarSize: 4,
+        horizontalScrollbarSize: 4,
+      },
+      padding: { top: 24, bottom: 80 },
+      cursorBlinking: 'smooth',
+      smoothScrolling: true,
+      contextmenu: true,
+      suggest: { showKeywords: true },
+    }),
+    [],
+  );
   return (
     <Flex
       flex={1}
@@ -76,32 +104,7 @@ const CodeEditor = ({ language, onRun, onSubmit }: CodeEditorProps) => {
           </Flex>
         }
         onChange={(val) => onChange(val ?? '')}
-        options={{
-          fontSize: 13,
-          fontFamily: "'Fira Code', 'Fira Mono', monospace",
-          fontLigatures: true,
-          lineHeight: 22,
-          minimap: { enabled: false },
-          scrollBeyondLastLine: false,
-          lineNumbers: 'on',
-          lineNumbersMinChars: 3,
-          renderLineHighlight: 'line',
-          tabSize: 4,
-          insertSpaces: true,
-          wordWrap: 'off',
-          folding: true,
-          bracketPairColorization: { enabled: true },
-          automaticLayout: true,
-          scrollbar: {
-            verticalScrollbarSize: 4,
-            horizontalScrollbarSize: 4,
-          },
-          padding: { top: 24, bottom: 80 },
-          cursorBlinking: 'smooth',
-          smoothScrolling: true,
-          contextmenu: true,
-          suggest: { showKeywords: true },
-        }}
+        options={editorOption as any}
       />
 
       {/* Floating action buttons */}

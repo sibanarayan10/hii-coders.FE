@@ -151,3 +151,9 @@ export const ProblemCategoryLabel: Record<ProblemCategory, string> = {
   [ProblemCategory.MEMOIZATION]: 'MEMOIZATION',
   [ProblemCategory.TABULATION]: 'TABULATION',
 };
+
+export enum SolveStatus {
+  TODO = 'TODO',
+  ATTEMPED = 'ATTEMPTED',
+  SOLVED = 'SOLVED',
+}

@@ -1,794 +1,608 @@
-import React, { useState, useEffect, CSSProperties } from 'react';
-import { Layout, Button, Typography, Row, Col, Space } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 import {
-  CodeOutlined,
-  TeamOutlined,
-  SafetyOutlined,
+  Typography,
+  Row,
+  Col,
+  Avatar,
+  Badge,
+  Space,
+  Divider,
+  Tag,
+  ConfigProvider,
+  theme,
+} from "antd";
+import {
   ThunderboltOutlined,
-  DashboardOutlined,
-} from '@ant-design/icons';
-import { useAuth } from '../contexts/AuthContext';
-import { UserRole } from '../enums/UserRole';
+  BulbOutlined,
+  GlobalOutlined,
+  BarChartOutlined,
+  TrophyOutlined,
+  BankOutlined,
+  RiseOutlined,
+  FireOutlined,
+  CheckCircleFilled,
+  ArrowRightOutlined,
+  GithubOutlined,
+  TwitterOutlined,
+  LinkedinOutlined,
+} from "@ant-design/icons";
+import { THEME } from "../constants/theme";
+import { Navbar } from "../components/common/Navbar";
+import { AppButton } from "../components/common/AppButton";
+import { SectionTitle } from "../components/common/SectionTitle";
+import { AppCard } from "../components/common/AppCard";
+import { useNavigate } from "react-router-dom";
 
-const { Header, Content, Footer } = Layout;
-const { Paragraph } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
-interface MousePosition {
-  x: number;
-  y: number;
-}
+const leaders = [
+  { rank: 1, name: "dev_wizard", pts: "2,940 pts" },
+  { rank: 2, name: "byte_me", pts: "2,882 pts" },
+  { rank: 3, name: "code_ninja", pts: "2,843 pts" },
+];
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  duration: number;
-  delay: number;
-}
+const testimonials = [
+  {
+    quote: "The AI hints aren't just answers; they teach you how to think. DevCode helped me land my Senior Engineer role at Meta in just 3 months.",
+    name: "Alex Chen",
+    role: "L6 Engineer at Meta",
+  },
+  {
+    quote: "The interface is so much better than the legacy platforms. It feels like my favorite IDE, which makes the long practice sessions actually enjoyable.",
+    name: "Sarah Jenkins",
+    role: "Fullstack Developer",
+  },
+];
 
-interface StatData {
-  icon: React.ReactNode;
-  value: number;
-  suffix: string;
-  label: string;
-}
+const footerCols = [
+  { title: "PLATFORM", links: ["Problems", "Contests", "Companies", "Learning Paths"] },
+  { title: "RESOURCES", links: ["Blog", "Documentation", "Discord Community", "API"] },
+  { title: "LEGAL", links: ["Privacy Policy", "Terms of Service", "Security"] },
+];
 
-type ServerStatus = 'OPTIMAL' | 'EXCELLENT' | 'PEAK' | 'BLAZING';
-
-export default function LandingPage(): JSX.Element {
-  const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
-  const [cursorVisible, setCursorVisible] = useState<boolean>(true);
-  const [typedText, setTypedText] = useState<string>('');
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [serverStatus, setServerStatus] = useState<ServerStatus>('OPTIMAL');
-
-  const taglineText: string = '[ COMPILE_SKILLS . EXECUTE_DREAMS ]';
-
-  const navigate = useNavigate();
-  const { getUserRole } = useAuth();
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index <= taglineText.length) {
-        setTypedText(taglineText.slice(0, index));
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 80);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCursorVisible((v) => !v);
-    }, 530);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent): void => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  useEffect(() => {
-    const newParticles: Particle[] = Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 20 + 15,
-      delay: Math.random() * 5,
-    }));
-    setParticles(newParticles);
-  }, []);
-
-  useEffect(() => {
-    const statuses: ServerStatus[] = ['OPTIMAL', 'EXCELLENT', 'PEAK', 'BLAZING'];
-    const interval = setInterval(() => {
-      setServerStatus(statuses[Math.floor(Math.random() * statuses.length)]);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const statsData: StatData[] = [
-    { icon: <CodeOutlined />, value: 500, suffix: '+', label: 'ACTIVE_PROBLEMS' },
-    { icon: <TeamOutlined />, value: 10, suffix: 'K+', label: 'TOTAL_ENGINEERS' },
-    { icon: <SafetyOutlined />, value: 50, suffix: 'K+', label: 'VERIFIED_SOLUTIONS' },
-  ];
-
-  const gridStyle: CSSProperties = {
-    backgroundImage: `
-      linear-gradient(rgba(22, 119, 255, 0.3) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(22, 119, 255, 0.3) 1px, transparent 1px)
-    `,
-    backgroundSize: '50px 50px',
-    transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
-    transition: 'transform 0.3s ease-out',
-  };
-
-  const titleStyle: CSSProperties = {
-    transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`,
-    transition: 'transform 0.3s ease-out',
-  };
-
-  return (
-    <Layout className="hil-layout">
-      <div className="background-grid">
-        <div style={gridStyle}></div>
-      </div>
-
-      {particles.map((particle: Particle) => (
-        <div
-          key={particle.id}
-          className="particle"
+const features = [
+  { icon: <ThunderboltOutlined />, title: "Real-time Execution", desc: "Compile and run your code instantly against production-grade test cases." },
+  { icon: <BulbOutlined />, title: "AI Coding Hints", desc: "React? Get contextual nudges and complexity analysis from our tuned LLM." },
+  { icon: <GlobalOutlined />, title: "Multiple Languages", desc: "From Rust to Python, master your language of choice with full SDK support." },
+  { icon: <BarChartOutlined />, title: "Detailed Analytics", desc: "Visualize your progress with runtime percentile and memory usage graphs." },
+  { icon: <TrophyOutlined />, title: "Weekly Contests", desc: "Compete with global developers and climb the seasonal rankings." },
+  { icon: <BankOutlined />, title: "Company Curated", desc: "Practice questions actually asked in Google, Meta, and Amazon interviews." },
+];
+const CodeEditor = () => (
+  <div
+    style={{
+      background: "#101828",
+      border: `1px solid ${THEME.bgCardBorder}`,
+      borderRadius: 12,
+      overflow: "hidden",
+      maxWidth: 560,
+      margin: "0 auto",
+      boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
+    }}
+  >
+    {/* Title bar */}
+    <div
+      style={{
+        background: "#0d1520",
+        padding: "10px 16px",
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        borderBottom: `1px solid ${THEME.bgCardBorder}`,
+      }}
+    >
+      {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
+        <div key={c} style={{ width: 12, height: 12, borderRadius: "50%", background: c }} />
+      ))}
+      <Space size={6} style={{ marginLeft: 12 }}>
+        {["function", "solution.js"].map((t, i) => (
+          <Text
+            key={t}
+            style={{
+              color: i === 1 ? THEME.textPrimary : THEME.textSecondary,
+              fontSize: 12,
+              fontFamily: "'Fira Code', monospace",
+              background: i === 1 ? THEME.bgCardBorder : "transparent",
+              padding: "2px 10px",
+              borderRadius: 4,
+            }}
+          >
+            {t}
+          </Text>
+        ))}
+      </Space>
+    </div>
+    {/* Code lines */}
+    <div style={{ padding: "16px 20px", fontFamily: "'Fira Code', monospace", fontSize: 13 }}>
+      {[
+        { ln: 1, code: <><span style={{ color: "#569cd6" }}>function</span> <span style={{ color: "#dcdcaa" }}>twoSum</span><span style={{ color: "#d4d4d4" }}>(nums, target) {"{"}</span></> },
+        { ln: 2, code: <><span style={{ color: "#569cd6" }}>  const</span> <span style={{ color: "#9cdcfe" }}>map</span> <span style={{ color: "#d4d4d4" }}>= new</span> <span style={{ color: "#4ec9b0" }}>Map</span><span style={{ color: "#d4d4d4" }}>();</span></> },
+        { ln: 3, code: <><span style={{ color: "#569cd6" }}>  for</span> <span style={{ color: "#d4d4d4" }}>(let i = 0; i {"<"} nums.length; i++) {"{"}</span></> },
+        { ln: 4, code: null },
+        { ln: 5, code: <><span style={{ color: "#6a9955" }}>    // AI Suggestion: Check if complement exists</span></> },
+        { ln: 6, code: null },
+      ].map(({ ln, code }) => (
+        <div key={ln} style={{ display: "flex", gap: 16, lineHeight: "22px", minHeight: 22 }}>
+          <span style={{ color: "#3c4a6e", minWidth: 16, userSelect: "none" }}>{ln}</span>
+          <span>{code}</span>
+        </div>
+      ))}
+      {/* Cursor blink */}
+      <div style={{ display: "flex", gap: 16, lineHeight: "22px" }}>
+        <span style={{ color: "#3c4a6e", minWidth: 16 }}>7</span>
+        <span
           style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            animation: `float ${particle.duration}s infinite ease-in-out ${particle.delay}s`,
+            display: "inline-block",
+            width: 2,
+            height: 16,
+            background: THEME.accent,
+            animation: "blink 1.1s step-end infinite",
+            verticalAlign: "middle",
           }}
         />
-      ))}
+      </div>
+    </div>
+  </div>
+);
 
-      <Header className="hil-header">
-        <div className="logo-container">
-          <div className="logo-text">~$ HIL_</div>
-          <div className="logo-cursor"></div>
-        </div>
+export const LandingPage = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-        <nav className="nav-menu">
-          <a href="#problems" className="nav-link">
-            <span>01</span>
-            <span className="nav-separator">:</span>
-            <span>PROBLEMS</span>
-          </a>
-          <a href="#leaderboard" className="nav-link">
-            <span>02</span>
-            <span className="nav-separator">:</span>
-            <span>LEADERBOARD</span>
-          </a>
-          <a href="#community" className="nav-link">
-            <span>03</span>
-            <span className="nav-separator">:</span>
-            <span>COMMUNITY</span>
-          </a>
-          <Button className="auth-button" onClick={() => navigate('/sign-in')}>
-            AUTH.LOGIN
-          </Button>
-        </nav>
-      </Header>
+  const navigate = useNavigate();
 
-      <Content className="hil-content">
-        <div className="hero-section">
-          <div className="title-container">
-            <h1 className="main-title" style={titleStyle}>
-              <span>HII</span>
-              <span className="title-dot"></span>
-              <span>CODERS</span>
-            </h1>
-          </div>
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm,
+        token: {
+          colorPrimary: THEME.accent,
+          fontFamily: "'Space Grotesk', sans-serif",
+          colorBgContainer: THEME.bgCard,
+          colorBorder: THEME.bgCardBorder,
+          borderRadius: 10,
+        },
+      }}
+    >
+      {/* Global styles */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: ${THEME.bg}; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+        .hero-anim { animation: fadeUp 0.8s ease forwards; }
+        .hero-anim-2 { animation: fadeUp 0.8s 0.15s ease both; }
+        .hero-anim-3 { animation: fadeUp 0.8s 0.3s ease both; }
+        .hero-anim-4 { animation: fadeUp 0.8s 0.45s ease both; }
+        .feat-card:hover { border-color: ${THEME.accent} !important; transform: translateY(-3px); transition: all 0.25s; }
+        .feat-card { transition: all 0.25s; }
+        section { padding: 90px 40px; }
+        @media(max-width:768px){ section{padding:60px 20px;} }
+      `}</style>
 
-          <div className="tagline">
-            <span>{typedText}</span>
-            <span className={`cursor ${cursorVisible ? 'visible' : 'hidden'}`}></span>
-          </div>
+      <div style={{ background: THEME.bg, minHeight: "100vh", color: THEME.textPrimary }}>
+        <Navbar />
 
-          <Paragraph className="description">
-            Architect high-performance solutions for complex algorithmic challenges.
-            <br />
-            Systems-level thinking meets modern competitive programming.
-          </Paragraph>
-
-          <Space size="large" className="cta-buttons">
-            <Button
-              type="primary"
-              size="large"
-              className="primary-cta"
-              onClick={() => navigate('/problems')}
+        <section
+          style={{
+            paddingTop: 140,
+            paddingBottom: 80,
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Background glow */}
+          <div
+            style={{
+              position: "absolute",
+              top: "10%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 600,
+              height: 400,
+              background: "radial-gradient(ellipse, rgba(108,99,255,0.18) 0%, transparent 70%)",
+              pointerEvents: "none",
+            }}
+          />
+          <div className="hero-anim">
+            <Title
+              style={{
+                color: THEME.textPrimary,
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 700,
+                fontSize: 52,
+                lineHeight: 1.15,
+                maxWidth: 620,
+                margin: "0 auto 16px",
+              }}
             >
-              <ThunderboltOutlined />
-              <span>Start Coding</span>
-              <span className="arrow">→</span>
-            </Button>
-
-            <Button size="large" className="secondary-cta">
-              <DashboardOutlined />
-              <span>VIEW DASHBOARD</span>
-              <span className="underscore">_</span>
-            </Button>
-            {getUserRole() == UserRole.ADMIN && (
-              <Button
-                size="large"
-                className="secondary-cta"
-                onClick={() => navigate('/admin/dashboard')}
-              >
-                <DashboardOutlined />
-                <span>VIEW ADMIN DASHBOARD</span>
-                <span className="underscore">_</span>
-              </Button>
-            )}
-          </Space>
-        </div>
-
-        <Row gutter={[24, 24]} className="stats-section">
-          {statsData.map((stat: StatData, index: number) => (
-            <Col xs={24} md={8} key={index}>
-              <div
-                className="stat-card"
-                style={{
-                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
-                }}
-              >
-                <div className="corner-top-right"></div>
-                <div className="corner-bottom-left"></div>
-
-                <div className="stat-content">
-                  <div className="stat-icon">{stat.icon}</div>
-                  <div className="stat-value">
-                    {stat.value}
-                    <span className="stat-suffix">{stat.suffix}</span>
-                  </div>
-                  <div className="stat-label">{stat.label}</div>
-                </div>
-              </div>
-            </Col>
-          ))}
-        </Row>
-      </Content>
-
-      <Footer className="hil-footer">
-        <div className="footer-content">
-          <div className="footer-left">
-            <div className="footer-logo">
-              <span>~$</span>
-              <span>HIL_CODERS.root</span>
-            </div>
-            <Paragraph className="footer-description">
-              Engineering the next generation of algorithmic mastery. Precision built for
-              high-performance developers.
+              Master Coding Interviews Through Real Practice
+            </Title>
+          </div>
+          <div className="hero-anim-2">
+            <Paragraph
+              style={{
+                color: THEME.textSecondary,
+                fontSize: 16,
+                maxWidth: 500,
+                margin: "0 auto 32px",
+                lineHeight: 1.7,
+              }}
+            >
+              Solve real-world challenges, track your growth with advanced analytics, and get hired by top tech companies.
             </Paragraph>
           </div>
-
-          <div className="footer-right">
-            <div className="footer-section">
-              <h3>PLATFORM</h3>
-              <div className="footer-links">
-                <a href="#">PROBLEMS.SYS</a>
-                <a href="#">RANKINGS.DAT</a>
-                <a href="#">COMMUNITY.NODE</a>
-              </div>
-            </div>
-
-            <div className="footer-section">
-              <h3>LEGAL</h3>
-              <div className="footer-links">
-                <a href="#">PRIVACY.MD</a>
-                <a href="#">TERMS.MD</a>
-              </div>
-            </div>
+          <div className="hero-anim-3">
+            <Space size={14} wrap style={{ justifyContent: "center" }}>
+              <AppButton buttonVariant="primary" style={{ height: 44, padding: "0 28px", fontSize: 15 }} onClick={() => navigate("/problmes")}>
+                Start Solving
+              </AppButton>
+              <AppButton buttonVariant="outline" style={{ height: 44, padding: "0 28px", fontSize: 15 }} onClick={() => navigate("/problmes")}>
+                Explore Problems
+              </AppButton>
+            </Space>
           </div>
-        </div>
-
-        <div className="footer-bottom">
-          <div>© 2024 HIL_CODERS. // ALL_SYSTEMS_OPERATIONAL.</div>
-          <div className="server-status">
-            <div className="status-dot"></div>
-            <span>SERVER_STATUS: {serverStatus}</span>
+          <div className="hero-anim-4" style={{ marginTop: 56 }}>
+            <CodeEditor />
           </div>
-        </div>
-      </Footer>
-
-      <style>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        .hil-layout {
-          min-height: 100vh;
-          background-color: #000000;
-          color: #ffffff;
-          overflow: hidden;
-          position: relative;
-          font-family: 'Courier New', Courier, monospace;
-        }
-
-        .background-grid {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          opacity: 0.1;
-          z-index: 0;
-        }
-
-        .background-grid > div {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-        }
-
-        .particle {
-          position: absolute;
-          border-radius: 50%;
-          background-color: #1677ff;
-          opacity: 0.2;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .hil-header {
-          position: relative;
-          z-index: 10;
-          background: transparent;
-          padding: 24px 32px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: 1px solid #1f1f1f;
-        }
-
-        .logo-container {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          cursor: pointer;
-        }
-
-        .logo-text {
-          font-size: 24px;
-          font-weight: bold;
-          color: #22d3ee;
-          transition: color 0.3s;
-        }
-
-        .logo-container:hover .logo-text {
-          color: #67e8f9;
-        }
-
-        .logo-cursor {
-          width: 8px;
-          height: 20px;
-          background-color: #22d3ee;
-          animation: pulse 1s infinite;
-        }
-
-        .nav-menu {
-          display: flex;
-          align-items: center;
-          gap: 32px;
-          font-size: 14px;
-        }
-
-        .nav-link {
-          color: #9ca3af;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          transition: color 0.3s;
-        }
-
-        .nav-link:hover {
-          color: #1677ff;
-        }
-
-        .nav-separator {
-          color: #4b5563;
-        }
-
-        .auth-button {
-          border-color: #374151;
-          background: transparent;
-          color: #d1d5db;
-        }
-
-        .auth-button:hover {
-          border-color: #1677ff !important;
-          background: rgba(22, 119, 255, 0.1) !important;
-          color: #ffffff !important;
-        }
-
-        .hil-content {
-          position: relative;
-          z-index: 10;
-          padding: 80px 32px 128px;
-          background: transparent;
-        }
-
-        .hero-section {
-          max-width: 896px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .title-container {
-          margin-bottom: 48px;
-          position: relative;
-        }
-
-        .main-title {
-          font-size: 96px;
-          font-weight: 900;
-          margin-bottom: 24px;
-          position: relative;
-          display: inline-block;
-          line-height: 1;
-        }
-
-        .title-dot {
-          display: inline-block;
-          width: 16px;
-          height: 16px;
-          background-color: #1677ff;
-          border-radius: 50%;
-          margin: 0 8px;
-          margin-bottom: 16px;
-          vertical-align: middle;
-        }
-
-        .glitch-layer {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          opacity: 0.7;
-          mix-blend-mode: screen;
-        }
-
-        .glitch-blue {
-          color: #1677ff;
-          transform: translate(-2px, -2px);
-          animation: glitch 3s infinite;
-        }
-
-        .glitch-cyan {
-          color: #22d3ee;
-          opacity: 0.5;
-          transform: translate(2px, 2px);
-          animation: glitch 2.5s infinite reverse;
-        }
-
-        .tagline {
-          font-size: 24px;
-          color: #22d3ee;
-          margin-bottom: 32px;
-          font-family: 'Courier New', Courier, monospace;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .cursor {
-          display: inline-block;
-          width: 12px;
-          height: 24px;
-          background-color: #22d3ee;
-          margin-left: 4px;
-        }
-
-        .cursor.visible {
-          opacity: 1;
-        }
-
-        .cursor.hidden {
-          opacity: 0;
-        }
-
-        .description {
-          font-size: 18px;
-          color: #9ca3af;
-          margin-bottom: 48px;
-          max-width: 672px;
-          margin-left: auto;
-          margin-right: auto;
-          line-height: 1.75;
-        }
-
-        .cta-buttons {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-bottom: 128px;
-        }
-
-        .primary-cta {
-          padding: 16px 32px;
-          height: auto;
-          background-color: #1677ff;
-          border: none;
-          font-weight: bold;
-          font-size: 16px;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .primary-cta:hover {
-          background-color: #0d5fd6 !important;
-          box-shadow: 0 10px 40px rgba(22, 119, 255, 0.5);
-        }
-
-        .primary-cta .arrow {
-          color: #67e8f9;
-          margin-left: 8px;
-        }
-
-        .secondary-cta {
-          padding: 16px 32px;
-          height: auto;
-          background: transparent;
-          border: 2px solid #374151;
-          color: #d1d5db;
-          font-weight: bold;
-          font-size: 16px;
-        }
-
-        .secondary-cta:hover {
-          border-color: #1677ff !important;
-          color: #ffffff !important;
-          box-shadow: 0 10px 40px rgba(22, 119, 255, 0.3);
-        }
-
-        .secondary-cta .underscore {
-          opacity: 0;
-          transition: opacity 0.3s;
-          color: #1677ff;
-        }
-
-        .secondary-cta:hover .underscore {
-          opacity: 1;
-        }
-
-        .stats-section {
-          max-width: 1280px;
-          margin: 0 auto;
-        }
-
-        .stat-card {
-          position: relative;
-          background: linear-gradient(135deg, #111111 0%, #000000 100%);
-          border: 1px solid #1f1f1f;
-          padding: 32px;
-          transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-          border-color: rgba(22, 119, 255, 0.5);
-          box-shadow: 0 20px 60px rgba(22, 119, 255, 0.2);
-        }
-
-        .corner-top-right {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 48px;
-          height: 48px;
-          border-top: 2px solid rgba(22, 119, 255, 0.3);
-          border-right: 2px solid rgba(22, 119, 255, 0.3);
-          transition: border-color 0.3s;
-        }
-
-        .stat-card:hover .corner-top-right {
-          border-color: #1677ff;
-        }
-
-        .corner-bottom-left {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 48px;
-          height: 48px;
-          border-bottom: 2px solid rgba(22, 119, 255, 0.3);
-          border-left: 2px solid rgba(22, 119, 255, 0.3);
-          transition: border-color 0.3s;
-        }
-
-        .stat-card:hover .corner-bottom-left {
-          border-color: #1677ff;
-        }
-
-        .stat-content {
-          text-align: center;
-        }
-
-        .stat-icon {
-          color: #1677ff;
-          font-size: 48px;
-          margin-bottom: 16px;
-          transition: transform 0.3s;
-        }
-
-        .stat-card:hover .stat-icon {
-          transform: scale(1.1);
-        }
-
-        .stat-value {
-          font-size: 48px;
-          font-weight: 900;
-          color: #ffffff;
-          margin-bottom: 8px;
-          transition: color 0.3s;
-        }
-
-        .stat-card:hover .stat-value {
-          color: #1677ff;
-        }
-
-        .stat-suffix {
-          color: #1677ff;
-        }
-
-        .stat-label {
-          color: #6b7280;
-          font-size: 14px;
-          letter-spacing: 2px;
-          font-family: 'Courier New', Courier, monospace;
-        }
-
-        .hil-footer {
-          position: relative;
-          z-index: 10;
-          border-top: 1px solid #1f1f1f;
-          padding: 48px 32px;
-          background: transparent;
-        }
-
-        .footer-content {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 32px;
-          max-width: 1280px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .footer-left {
-          max-width: 384px;
-        }
-
-        .footer-logo {
-          font-size: 20px;
-          font-weight: bold;
-          color: #22d3ee;
-          margin-bottom: 8px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .footer-description {
-          color: #6b7280;
-          font-size: 14px;
-          line-height: 1.75;
-        }
-
-        .footer-right {
-          display: flex;
-          gap: 64px;
-        }
-
-        .footer-section h3 {
-          color: #9ca3af;
-          font-size: 12px;
-          margin-bottom: 16px;
-          letter-spacing: 2px;
-        }
-
-        .footer-links {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .footer-links a {
-          color: #6b7280;
-          text-decoration: none;
-          font-size: 14px;
-          transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-          color: #1677ff;
-        }
-
-        .footer-bottom {
-          display: flex;
-          justify-content: space-between;
-          padding-top: 32px;
-          border-top: 1px solid #111111;
-          font-size: 12px;
-          color: #4b5563;
-          max-width: 1280px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .server-status {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: #10b981;
-          font-family: 'Courier New', Courier, monospace;
-        }
-
-        .status-dot {
-          width: 8px;
-          height: 8px;
-          background-color: #10b981;
-          border-radius: 50%;
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          25% { transform: translateY(-20px) translateX(10px); }
-          50% { transform: translateY(-10px) translateX(-10px); }
-          75% { transform: translateY(-30px) translateX(5px); }
-        }
-
-        @keyframes glitch {
-          0% { transform: translate(0); }
-          20% { transform: translate(-2px, 2px); }
-          40% { transform: translate(-2px, -2px); }
-          60% { transform: translate(2px, 2px); }
-          80% { transform: translate(2px, -2px); }
-          100% { transform: translate(0); }
-        }
-
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 768px) {
-          .main-title {
-            font-size: 48px;
-          }
-          
-          .nav-menu {
-            flex-direction: column;
-            gap: 16px;
-          }
-          
-          .footer-content {
-            flex-direction: column;
-            gap: 32px;
-          }
-          
-          .footer-bottom {
-            flex-direction: column;
-            gap: 16px;
-            text-align: center;
-          }
-        }
-      `}</style>
-    </Layout>
+        </section>
+
+        {/* ── FEATURES ── */}
+        <section style={{ background: "rgba(13,21,48,0.6)", padding: "80px 60px" }}>
+          <SectionTitle>Everything You Need To Excel</SectionTitle>
+          <div style={{ height: 40 }} />
+          <Row gutter={[20, 20]} style={{ maxWidth: 1000, margin: "0 auto" }}>
+            {features.map((f) => (
+              <Col xs={24} sm={12} md={8} key={f.title}>
+                <AppCard className="feat-card" style={{ height: "100%" }}>
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: "rgba(108,99,255,0.15)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 18,
+                      color: THEME.accent,
+                      marginBottom: 14,
+                    }}
+                  >
+                    {f.icon}
+                  </div>
+                  <Title level={5} style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", marginBottom: 6 }}>
+                    {f.title}
+                  </Title>
+                  <Text style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.6 }}>{f.desc}</Text>
+                </AppCard>
+              </Col>
+            ))}
+          </Row>
+        </section>
+
+        {/* ── GROWTH PATH ── */}
+        <section style={{ padding: "90px 60px" }}>
+          <Row gutter={[60, 40]} align="middle" style={{ maxWidth: 1000, margin: "0 auto" }}>
+            <Col xs={24} md={12}>
+              <Title
+                level={2}
+                style={{
+                  color: THEME.textPrimary,
+                  fontFamily: "'Space Grotesk',sans-serif",
+                  fontWeight: 700,
+                  fontSize: 34,
+                  marginBottom: 16,
+                }}
+              >
+                Track Your Growth Path
+              </Title>
+              <Paragraph style={{ color: THEME.textSecondary, fontSize: 15, lineHeight: 1.8, marginBottom: 28 }}>
+                Your developer profile is your new resume. Showcase your coding streak, rating improvements, and problem-solving velocity with beautiful, shareable dashboards.
+              </Paragraph>
+              {[
+                "Heatmaps for consistency",
+                "ELO-style competitive rating",
+                "Topic-wise mastery breakdown",
+              ].map((item) => (
+                <div key={item} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <CheckCircleFilled style={{ color: THEME.accentGreen, fontSize: 16 }} />
+                  <Text style={{ color: THEME.textPrimary, fontSize: 14 }}>{item}</Text>
+                </div>
+              ))}
+            </Col>
+            <Col xs={24} md={12}>
+              <GrowthChart />
+            </Col>
+          </Row>
+        </section>
+
+        {/* ── ARENA ── */}
+        <section style={{ background: "rgba(13,21,48,0.6)", padding: "80px 60px" }}>
+          <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+            <Row justify="space-between" align="middle" style={{ marginBottom: 28 }}>
+              <Col>
+                <Title level={2} style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", margin: 0, fontSize: 28 }}>
+                  Join the Arena
+                </Title>
+                <Text style={{ color: THEME.textSecondary, fontSize: 14 }}>Daily challenges and weekly global sprints.</Text>
+              </Col>
+              <Col>
+                <AppButton buttonVariant="ghost" style={{ fontSize: 13 }}>
+                  View All Contests <ArrowRightOutlined />
+                </AppButton>
+              </Col>
+            </Row>
+            <Row gutter={[24, 24]}>
+              {/* Contest card */}
+              <Col xs={24} md={12}>
+                <AppCard style={{ height: "100%", overflow: "hidden", position: "relative" }}>
+                  <div
+                    style={{
+                      height: 120,
+                      borderRadius: 10,
+                      background: "linear-gradient(135deg,#1a0533,#0a1f4a,#0d2e50)",
+                      marginBottom: 16,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      overflow: "hidden",
+                      position: "relative",
+                    }}
+                  >
+                    {/* Decorative glows */}
+                    <div style={{ position: "absolute", width: 80, height: 80, borderRadius: "50%", background: "rgba(108,99,255,0.25)", top: 10, left: 10, filter: "blur(20px)" }} />
+                    <div style={{ position: "absolute", width: 60, height: 60, borderRadius: "50%", background: "rgba(0,229,160,0.2)", bottom: 10, right: 20, filter: "blur(16px)" }} />
+                    <GithubOutlined style={{ fontSize: 40, color: "rgba(255,255,255,0.15)" }} />
+                  </div>
+                  <Badge
+                    dot
+                    color={THEME.accentGreen}
+                    style={{ marginRight: 6 }}
+                  >
+                    <Tag style={{ background: "rgba(0,229,160,0.1)", border: "none", color: THEME.accentGreen, fontSize: 11, fontWeight: 700 }}>
+                      LIVE NOW
+                    </Tag>
+                  </Badge>
+                  <Title level={4} style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", margin: "10px 0 6px" }}>
+                    Binary Blitz #42
+                  </Title>
+                  <Text style={{ color: THEME.textSecondary, fontSize: 13 }}>3 Problems • 90 Minutes • $500 Pool</Text>
+                  <div style={{ marginTop: 16 }}>
+                    <AppButton buttonVariant="primary" style={{ height: 36, fontSize: 13 }}>
+                      Enter Arena
+                    </AppButton>
+                  </div>
+                </AppCard>
+              </Col>
+              {/* Leaderboard */}
+              <Col xs={24} md={12}>
+                <LeaderBoard />
+              </Col>
+            </Row>
+          </div>
+        </section>
+
+        {/* ── TESTIMONIALS ── */}
+        <section style={{ padding: "90px 60px" }}>
+          <SectionTitle>Built by Developers, for Future Leads</SectionTitle>
+          <div style={{ height: 40 }} />
+          <Row gutter={[24, 24]} style={{ maxWidth: 900, margin: "0 auto" }}>
+            {testimonials.map((t) => (
+              <Col xs={24} md={12} key={t.name}>
+                <AppCard style={{ height: "100%" }}>
+                  <Text
+                    style={{
+                      color: THEME.textPrimary,
+                      fontSize: 14,
+                      lineHeight: 1.8,
+                      fontStyle: "italic",
+                      display: "block",
+                      marginBottom: 20,
+                    }}
+                  >
+                    "{t.quote}"
+                  </Text>
+                  <Divider style={{ borderColor: THEME.bgCardBorder, margin: "0 0 16px" }} />
+                  <Space>
+                    <Avatar size={36} style={{ background: THEME.accent }}>
+                      {t.name[0]}
+                    </Avatar>
+                    <div>
+                      <Text style={{ color: THEME.textPrimary, fontWeight: 600, display: "block", fontSize: 13 }}>
+                        {t.name}
+                      </Text>
+                      <Text style={{ color: THEME.textSecondary, fontSize: 12 }}>{t.role}</Text>
+                    </div>
+                  </Space>
+                </AppCard>
+              </Col>
+            ))}
+          </Row>
+        </section>
+
+        {/* ── CTA BANNER ── */}
+        <section style={{ padding: "40px 40px 90px" }}>
+          <div
+            style={{
+              maxWidth: 600,
+              margin: "0 auto",
+              borderRadius: 20,
+              background: "linear-gradient(135deg, #4158d0 0%, #6c63ff 50%, #a084ee 100%)",
+              padding: "56px 40px",
+              textAlign: "center",
+              boxShadow: "0 24px 80px rgba(108,99,255,0.35)",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            {/* Glare */}
+            <div style={{ position: "absolute", top: -40, right: -40, width: 160, height: 160, borderRadius: "50%", background: "rgba(255,255,255,0.08)" }} />
+            <Title level={2} style={{ color: "#fff", fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, marginBottom: 10, fontSize: 32 }}>
+              Ready to break the stack?
+            </Title>
+            <Paragraph style={{ color: "rgba(255,255,255,0.75)", fontSize: 15, marginBottom: 32 }}>
+              Join 300,000+ developers sharpening their skills and building the future.
+            </Paragraph>
+            <AppButton buttonVariant="cta">Get Started for Free</AppButton>
+          </div>
+        </section>
+
+        {/* ── FOOTER ── */}
+        <footer
+          style={{
+            background: "#070c18",
+            borderTop: `1px solid ${THEME.bgCardBorder}`,
+            padding: "52px 60px 30px",
+          }}
+        >
+          <Row gutter={[40, 32]} style={{ maxWidth: 1000, margin: "0 auto" }}>
+            {/* Brand */}
+            <Col xs={24} md={6}>
+              <Text style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: 18, display: "block", marginBottom: 10 }}>
+                DevCode
+              </Text>
+              <Text style={{ color: THEME.textSecondary, fontSize: 13, lineHeight: 1.7, display: "block", marginBottom: 18 }}>
+                Accelerating technical mastery for the next generation of engineers.
+              </Text>
+              <Space size={14}>
+                {[TwitterOutlined, LinkedinOutlined, GithubOutlined].map((Icon, i) => (
+                  <Icon key={i} style={{ color: THEME.textSecondary, fontSize: 18, cursor: "pointer" }} />
+                ))}
+              </Space>
+            </Col>
+            {/* Links */}
+            {footerCols.map((col) => (
+              <Col xs={12} md={4} key={col.title}>
+                <Text style={{ color: THEME.textSecondary, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", display: "block", marginBottom: 14 }}>
+                  {col.title}
+                </Text>
+                {col.links.map((link) => (
+                  <Text key={link} style={{ color: THEME.textSecondary, fontSize: 13, display: "block", marginBottom: 10, cursor: "pointer" }}>
+                    {link}
+                  </Text>
+                ))}
+              </Col>
+            ))}
+          </Row>
+          <Divider style={{ borderColor: THEME.bgCardBorder, margin: "32px auto", maxWidth: 1000 }} />
+          <Row justify="space-between" style={{ maxWidth: 1000, margin: "0 auto" }}>
+            <Text style={{ color: THEME.textSecondary, fontSize: 12 }}>© 2024 DevCode Inc. Built for developer success.</Text>
+            <Space split={<Divider type="vertical" style={{ borderColor: THEME.bgCardBorder }} />}>
+              <Text style={{ color: THEME.textSecondary, fontSize: 12, cursor: "pointer" }}>English (US)</Text>
+              <Text style={{ color: THEME.textSecondary, fontSize: 12, cursor: "pointer" }}>System Settings</Text>
+            </Space>
+          </Row>
+        </footer>
+      </div>
+    </ConfigProvider>
   );
 }
+
+
+const LeaderBoard = () => (
+  <AppCard>
+    <Text style={{ color: THEME.textSecondary, fontSize: 11, fontWeight: 600, letterSpacing: 1, textTransform: "uppercase" }}>
+      Current Leaders
+    </Text>
+    <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 8 }}>
+      {leaders.map((l) => (
+        <div
+          key={l.rank}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            background: "rgba(255,255,255,0.03)",
+            borderRadius: 8,
+            padding: "8px 12px",
+          }}
+        >
+          <Text style={{ color: THEME.textSecondary, fontSize: 13, minWidth: 20 }}>#{l.rank}</Text>
+          <Avatar size={28} style={{ background: THEME.accent, fontSize: 12 }}>
+            {l.name[0].toUpperCase()}
+          </Avatar>
+          <Text style={{ color: THEME.textPrimary, flex: 1, fontSize: 13, fontFamily: "'Fira Code',monospace" }}>
+            {l.name}
+          </Text>
+          <Text style={{ color: THEME.accentGreen, fontSize: 13, fontWeight: 600 }}>{l.pts}</Text>
+        </div>
+      ))}
+    </div>
+  </AppCard>
+);
+
+const GrowthChart = () => {
+  const bars = [
+    { h: 38, color: "#1a2545" },
+    { h: 52, color: "#1a2545" },
+    { h: 44, color: "#1a2545" },
+    { h: 68, color: "#1a2545" },
+    { h: 55, color: "#1a2545" },
+    { h: 75, color: "#2d3d6e" },
+    { h: 88, color: THEME.accent },
+  ];
+  const greens = [28, 40, 60, 30, 48, 65, 72];
+  return (
+    <div style={{ position: "relative" }}>
+      <AppCard style={{ minHeight: 220 }}>
+        {/* Rating header */}
+        <Space direction="vertical" size={0} style={{ marginBottom: 16 }}>
+          <Text style={{ color: THEME.textSecondary, fontSize: 12 }}>Current Rating</Text>
+          <Space align="center" size={12}>
+            <Title level={3} style={{ color: THEME.textPrimary, margin: 0, fontFamily: "'Space Grotesk',sans-serif" }}>
+              2,482
+            </Title>
+            <Tag
+              icon={<RiseOutlined />}
+              color="success"
+              style={{ background: "rgba(0,229,160,0.12)", border: "none", color: THEME.accentGreen, borderRadius: 6 }}
+            >
+              +128 this month
+            </Tag>
+          </Space>
+        </Space>
+        {/* Bar chart */}
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 90 }}>
+          {bars.map((b, i) => (
+            <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4, alignItems: "stretch" }}>
+              <div
+                style={{
+                  height: b.h,
+                  background: b.color,
+                  borderRadius: "4px 4px 0 0",
+                  transition: "all 0.3s",
+                }}
+              />
+              <div
+                style={{
+                  height: (greens[i] * 0.7),
+                  background: i >= 4 ? THEME.accentGreen : "#1e3a2f",
+                  borderRadius: "0 0 4px 4px",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+        {/* Streak badge */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 16,
+            right: 16,
+            background: THEME.accent,
+            borderRadius: 8,
+            padding: "4px 10px",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <FireOutlined style={{ color: "#fff", fontSize: 13 }} />
+          <Text style={{ color: "#fff", fontSize: 12, fontWeight: 700 }}>128 Day Streak</Text>
+        </div>
+      </AppCard>
+    </div>
+  );
+};
