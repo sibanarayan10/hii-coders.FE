@@ -1,6 +1,6 @@
 import { Layout, Typography, Button, Space, Row, Col } from 'antd';
 
-const { Header, Footer, Content } = Layout;
+const { Footer, Content } = Layout;
 const { Title, Text, Link } = Typography;
 
 export default function NotFoundPage() {
@@ -12,50 +12,8 @@ export default function NotFoundPage() {
         color: '#fff',
       }}
     >
-      <Header
-        style={{
-          background: 'rgba(0,0,0,0.45)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-          padding: '0 40px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Title
-          level={3}
-          style={{
-            color: '#fff',
-            margin: 0,
-            fontWeight: 700,
-            letterSpacing: '-1px',
-          }}
-        >
-          Code Architect
-        </Title>
 
-        <Space size={40}>
-          <Text style={{ color: '#d9d9d9', cursor: 'pointer' }}>Problems</Text>
 
-          <Text style={{ color: '#d9d9d9', cursor: 'pointer' }}>Contests</Text>
-
-          <Text style={{ color: '#d9d9d9', cursor: 'pointer' }}>Leaderboard</Text>
-
-          <Text style={{ color: '#d9d9d9', cursor: 'pointer' }}>Discuss</Text>
-        </Space>
-
-        <Button
-          type="link"
-          style={{
-            color: '#ffffff',
-            fontWeight: 600,
-          }}
-        >
-          Sign In
-        </Button>
-      </Header>
-
-      {/* MAIN CONTENT */}
       <Content
         style={{
           display: 'flex',

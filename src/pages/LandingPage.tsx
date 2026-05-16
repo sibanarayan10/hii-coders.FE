@@ -235,10 +235,10 @@ export const LandingPage = () => {
           </div>
           <div className="hero-anim-3">
             <Space size={14} wrap style={{ justifyContent: "center" }}>
-              <AppButton buttonVariant="primary" style={{ height: 44, padding: "0 28px", fontSize: 15 }} onClick={() => navigate("/problmes")}>
+              <AppButton buttonVariant="primary" style={{ height: 44, padding: "0 28px", fontSize: 15 }} onClick={() => navigate("/problems")}>
                 Start Solving
               </AppButton>
-              <AppButton buttonVariant="outline" style={{ height: 44, padding: "0 28px", fontSize: 15 }} onClick={() => navigate("/problmes")}>
+              <AppButton buttonVariant="outline" style={{ height: 44, padding: "0 28px", fontSize: 15 }} onClick={() => navigate("/problems")}>
                 Explore Problems
               </AppButton>
             </Space>

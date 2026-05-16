@@ -1,4 +1,4 @@
-import { Tabs, Tag, Typography, Space, Flex, Spin } from 'antd';
+import { Tabs, Typography, Space, Flex, Spin } from 'antd';
 import { LikeOutlined, ClockCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import { COLORS } from '../../../constants/theme';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import { ParagraphBlock } from '../Blocks/ParagraphBlock';
 import { ImageBlock } from '../Blocks/ImageBlock';
 import { QuoteBlock } from '../Blocks/QuoteBlock';
 import { HeaderBlock } from '../Blocks/HeaderBlock';
-import DifficultyBadge from '../../common/DifficultyBadge';
+import { DifficultyBadge } from '../../common/DifficultyBadge';
 
 const { Title, Text } = Typography;
 
@@ -99,7 +99,7 @@ const DescriptionContent = (props: { problem: Problem }) => (
         {props.problem.title}
       </Title>
       <Space size={12} align="center" wrap>
-        <DifficultyBadge difficulty={props.problem.difficulty} />
+        <DifficultyBadge level={props.problem.difficulty} />
         <Text type="secondary" style={{ fontSize: 12 }}>
           <Space size={4}>
             <LikeOutlined />

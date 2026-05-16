@@ -154,6 +154,12 @@ export const ProblemCategoryLabel: Record<ProblemCategory, string> = {
 
 export enum SolveStatus {
   TODO = 'TODO',
-  ATTEMPED = 'ATTEMPTED',
+  ATTEMPTED = 'ATTEMPTED',
   SOLVED = 'SOLVED',
 }
+
+export const SolveStatusLabel: Record<SolveStatus, string> = {
+  [SolveStatus.TODO]: 'TO DO',
+  [SolveStatus.ATTEMPTED]: 'ATTEMPTED',
+  [SolveStatus.SOLVED]: 'SOLVED',
+};

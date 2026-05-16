@@ -1,12 +1,13 @@
+import { ProblemFilter } from '../pages/ProblemsPage';
 import { api } from './AxiosConfig';
 
 class ProblemService {
   route = 'api/v1/problems';
-  getProblems = (filters?: any) => {
+  getProblems = (page: number, size: number, filters?: ProblemFilter,) => {
     let updatedRoute = this.route;
     if (filters) {
-      const { difficulties = [], statuses = [] } = filters;
-      updatedRoute = `${this.route}?difficulties=${difficulties}&statuses=${statuses}`;
+      const { difficulties = [], solveStatus = [], companies = [], categories = [], search = "" } = filters;
+      updatedRoute = `${this.route}?difficulties=${difficulties}&status=${solveStatus}&companies=${companies}&categories=${categories}&search=${search}&page=${page}&size=${size}`;
     }
     return api.get(updatedRoute);
   };

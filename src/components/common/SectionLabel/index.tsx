@@ -8,12 +8,11 @@ interface SectionLabelProps {
 const SectionLabel = ({ children }: SectionLabelProps) => (
   <h3
     style={{
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: 700,
       letterSpacing: '0.05em',
       color: COLORS.onSurfaceVariant,
       textTransform: 'uppercase',
-      marginBottom: 24,
     }}
   >
     {children}

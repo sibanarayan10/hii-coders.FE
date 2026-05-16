@@ -1,6 +1,4 @@
-import { ConfigProvider } from 'antd';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { antdTheme } from './constants/theme';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
@@ -11,10 +9,12 @@ import NotFoundPage from './pages/FallbackPage';
 import { AuthProvider } from './contexts/AuthContext';
 import { SignUp } from './components/features/Form/SignUp';
 import AdminDashboard from './pages/AdminDashboardPage';
+import { AppConfigProvider } from './contexts/AppConfigProvider';
 
 const App = () => (
-  <ConfigProvider theme={antdTheme}>
-    <Router>
+  <Router>
+    <AppConfigProvider >
+
       <AuthProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -28,9 +28,11 @@ const App = () => (
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+
       </AuthProvider>
-    </Router>
-  </ConfigProvider>
+    </AppConfigProvider>
+
+  </Router >
 );
 
 export default App;
