@@ -14,6 +14,7 @@ class ProblemService {
   getProblemDetail = (id: string) => api.get(`${this.route}/${id}`);
   createOrEditProblem = (body: any) => api.post(`${this.route}`, body);
   deleteProblem = (id: string) => api.put(`${this.route}/${id}`);
+  getTestCase = (problemId: string) => api.get(`${this.route}/${problemId}/testCases`)
 }
 
 export default new ProblemService();

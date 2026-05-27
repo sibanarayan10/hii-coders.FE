@@ -1,5 +1,6 @@
 import { OutputBlockData } from '@editorjs/editorjs';
 import { ProblemCategory } from '../enums/ProblemCategory';
+import { ProgrammingLanguage } from '../enums/ProgrammingLanguage';
 
 export enum STATUS {
   SOLVED = 'SOLVED',
@@ -23,6 +24,11 @@ export interface Problem {
   categories: ProblemCategory[];
   acceptance: number;
   blocks: OutputBlockData[];
+  activeUsers?: number,
+  solutionByLanguage?: Record<ProgrammingLanguage, string | undefined>
+  ioByLanguage?: Record<ProgrammingLanguage, string | undefined>
 }
+
+
 
 export const PAGE_SIZE = 5;

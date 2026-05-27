@@ -1,6 +1,9 @@
 import { ConfigProvider, theme } from "antd";
 import { Navbar } from "../components/common/Navbar";
 import { THEME } from "../constants/theme";
+import {
+    HomeOutlined,
+} from "@ant-design/icons";
 
 
 const ANT_THEME = {
@@ -97,7 +100,7 @@ const GLOBAL_STYLES = `
   .dc-input .ant-input-prefix { color: ${THEME.textSecondary}; margin-right: 8px; }
 
   /* ── Select ── */
-  .ant-select-selector            { background: #0a1020 !important; border-color: ${THEME.bgCardBorder} !important; border-radius: 10px !important; }
+  .ant-select-selector            { background: #0a1020 !important; border-color: ${THEME.bgCardBorder} !important; border-radius: 10px !important; padding:0px 0px !important; }
   .ant-select-selection-item      { background: rgba(108,99,255,0.15) !important; border: 1px solid rgba(108,99,255,0.3) !important; color: ${THEME.textPrimary} !important; border-radius: 6px !important; }
   .ant-select-selection-placeholder { color: ${THEME.textSecondary} !important; }
   .ant-select-dropdown            { background: #111827 !important; border: 1px solid ${THEME.bgCardBorder} !important; border-radius: 10px !important; }
@@ -116,7 +119,18 @@ const GLOBAL_STYLES = `
   .ant-pagination-item-active a   { color: #fff !important; }
   .ant-pagination-prev button,
   .ant-pagination-next button     { background: ${THEME.bgCard} !important; border-color: ${THEME.bgCardBorder} !important; color: ${THEME.textSecondary} !important; border-radius: 7px !important; }
-
+  .inline-code {
+    background: rgba(108,99,255,0.15) !important;
+    border: 1px solid rgba(108,99,255,0.25) !important;
+    color: ${THEME.accentBlue} !important;
+    border-radius: 4px !important;
+    padding: 1px 6px !important;
+    font-size: 0.9em !important;
+    font-family: 'Fira Code', monospace !important;
+}
+    .monaco-editor{
+    background: black !important;
+    }
   /* ── Modal ── */
   .ant-modal-content { padding: 0 !important; overflow: hidden; border-radius: 16px !important; }
 
@@ -125,7 +139,6 @@ const GLOBAL_STYLES = `
   .dc-feat-card:hover { border-color: ${THEME.accent} !important; transform: translateY(-3px); }
 
   /* ── Section defaults ── */
-  section { padding: 90px 40px; }
   @media(max-width: 768px){ section { padding: 60px 20px; } }
 `;
 
@@ -133,17 +146,22 @@ export const AppConfigProvider = ({
     children,
 
 }: { children: React.ReactNode }) => {
+
+    const breadcrumbItems = [
+        { label: "Home", icon: <HomeOutlined />, onClick: () => { } },
+        { label: "Problems", onClick: () => { } },
+        { label: "Trapping Rain Water" },
+    ];
     return (
         <ConfigProvider theme={ANT_THEME}>
             <style>{GLOBAL_STYLES}</style>
 
             <Navbar />
-
             <div
                 style={{
                     background: THEME.bg,
                     minHeight: "100vh",
-                    paddingTop: 52,
+                    paddingTop: 80,
                     color: THEME.textPrimary,
                 }}
             >

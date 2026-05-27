@@ -24,7 +24,7 @@ import UserService from '../services/UserService';
 import { User } from '../contexts/AuthContext';
 import ProblemService from '../services/ProblemService';
 import { Problem } from '../constants/problems';
-import { ProblemCategoryLabel } from '../enums/ProblemCategory';
+import { ProblemCategory, ProblemCategoryLabel } from '../enums/ProblemCategory';
 import { ProblemEditorModal } from '../components/features/Modal/ProblemModal';
 import { UserFormModal } from '../components/features/Modal/UserFormModal';
 
@@ -144,9 +144,12 @@ export default function AdminDashboard(): JSX.Element {
       dataIndex: 'categories',
       key: 'categories',
       render: (text: string[]) => {
-        return text.map((txt, idx) => (
+        if (!text) {
+          return;
+        }
+        return text.map((txt: string, idx) => (
           <Flex align="start">
-            <Text className="category-text">{ProblemCategoryLabel[txt]}</Text>
+            <Text className="category-text">{ProblemCategoryLabel[txt as ProblemCategory]}</Text>
             {idx != text.length - 1 && ','}
           </Flex>
         ));
@@ -189,7 +192,7 @@ export default function AdminDashboard(): JSX.Element {
 
   const getProblems = async () => {
     try {
-      const res = await ProblemService.getProblems();
+      const res = await ProblemService.getProblems(1, 10);
       if (res.data) {
         setProblems(res.data.content);
       }
@@ -325,6 +328,8 @@ export default function AdminDashboard(): JSX.Element {
           setUpdate={setUpdate}
         />
       )}
+
+
       {modal?.show && modal.type == 'User' && <UserFormModal onClose={() => setModal(null)} />}
       <style>{`
         * {

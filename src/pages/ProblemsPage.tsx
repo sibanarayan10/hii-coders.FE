@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Row, Col, Input, Table, Pagination, Typography, Space, Modal, Divider, Checkbox, Select, Flex, Radio, Spin } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Row, Col, Input, Table, Pagination, Typography, Space, Modal, Divider, Checkbox, Select, Flex, Radio, Spin, Button, Popover } from 'antd';
 
 import { COLORS, THEME } from '../constants/theme';
 import { AppButton } from '../components/common/AppButton';
-import { SearchOutlined, FilterOutlined, CheckCircleFilled, MinusCircleFilled, CloseOutlined, PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import { SearchOutlined, FilterOutlined, CheckCircleFilled, MinusCircleFilled, CloseOutlined, LoadingOutlined, EyeOutlined } from "@ant-design/icons";
 import { ActionBadge } from '../components/common/ActionBadge';
 import { DifficultyBadge } from '../components/common/DifficultyBadge';
-import { TopicTag } from './ProblemPageTrial';
 import { Difficulty, Problem } from '../constants/problems';
 import ProblemService from '../services/ProblemService';
 import { ProblemCategory, ProblemCategoryLabel, SolveStatus, SolveStatusLabel } from '../enums/ProblemCategory';
 import SectionLabel from '../components/common/SectionLabel';
 import { Company, CompanyLabel } from '../enums/Company';
+import { useNavigate } from 'react-router-dom';
+import { BlockViewer } from '../components/common/BlocksViewer';
+import { PulseLine } from './DashboardPage';
 
 const { Text, Title } = Typography;
 
@@ -41,6 +43,9 @@ const ProblemsPage = () => {
 
   return (
     <div style={{ maxWidth: 820, margin: "0 auto", padding: "72px 24px 40px" }}>
+      <Space direction='vertical' style={{ width: '100%', height: "100px" }}>
+        <PulseLine period="30D" />
+      </Space>
       <Title level={2} style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: 26, marginBottom: 22 }}>
         Explore Problems
       </Title>
@@ -215,10 +220,18 @@ const ColHeader = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const StatusIcon = ({ status }: { status: SolveStatus }) => {
-  if (status === SolveStatus.TODO) return <CheckCircleFilled style={{ color: THEME.accentGreen, fontSize: 16 }} />;
+  if (status === SolveStatus.SOLVED) return <CheckCircleFilled style={{ color: THEME.accentGreen, fontSize: 16 }} />;
   if (status === SolveStatus.ATTEMPTED) return <MinusCircleFilled style={{ color: THEME.accentOrange, fontSize: 16 }} />;
   return <span style={{ display: "inline-block", width: 16, height: 16, borderRadius: "50%", border: `1.5px solid ${THEME.bgCardBorder}` }} />;
 };
+
+export const TopicTag = ({ label }: { label: string }) => (
+  <span style={{ background: "rgba(108,99,255,0.08)", border: `1px solid rgba(108,99,255,0.18)`, color: THEME.textSecondary, borderRadius: 4, padding: "1px 7px", fontSize: 11, fontFamily: "'Space Grotesk',sans-serif" }}>
+    {label}
+  </span>
+);
+
+const PAGE_LIMIT = 10;
 
 const useProblemState = () => {
   const [problems, setProblems] = useState<Problem[]>([]);
@@ -226,7 +239,7 @@ const useProblemState = () => {
   const [paginationDetail, setPaginationDetail] = useState<PaginationDetailProps>({ pageSize: 10, current: 1, total: 1294 });
   const [loading, setLoading] = useState<boolean>(false);
 
-  const PAGE_LIMIT = 10;
+  const navigate = useNavigate();
 
   const getProblems = async () => {
     try {
@@ -248,20 +261,27 @@ const useProblemState = () => {
       title: <ColHeader>Status</ColHeader>,
       dataIndex: "status",
       width: 72,
-      render: (v: any) => <StatusIcon status={v} />,
+      render: (v: any) => (
+        <StatusIcon status={v} />
+      ),
     },
     {
       title: <ColHeader>Title</ColHeader>,
       dataIndex: "title",
       render: (title: string, row: any) => (
-        <div>
-          <Text style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", fontSize: 14, fontWeight: 500, display: "block", cursor: "pointer" }}>
-            {title}
-          </Text>
-          <Space size={6} style={{ marginTop: 5 }}>
-            {row?.categories?.map((tag: string) => <TopicTag key={tag} label={tag} />)}
-          </Space>
-        </div>
+        <Flex justify='space-between' align='center' onClick={() => navigate(`${row.id}`)}>
+          <Flex vertical gap={2}>
+            <Text style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", fontSize: 14, fontWeight: 500, display: "block", cursor: "pointer" }}>
+              {title}
+            </Text>
+            <Space size={6} style={{ marginTop: 5 }}>
+              {row?.categories?.map((tag: string) => <TopicTag key={tag} label={tag} />)}
+            </Space>
+          </Flex>
+          <Popover content={<BlockViewer blocks={row.blocks} showParagraphOnly={true} />} styles={{ root: { maxWidth: 400 } }} placement='topLeft'>
+            <Button variant="outlined" iconPosition='start' icon={<EyeOutlined onClick={(e) => { e.stopPropagation() }} />} />
+          </Popover>
+        </Flex>
       ),
     },
     {

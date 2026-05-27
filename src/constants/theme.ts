@@ -183,5 +183,6 @@ export const THEME = {
   navBg: "rgba(10,15,30,0.85)",
   accentOrange: "#ffa940",
   accentRed: "#ff6b6b",
+  accentYellow: "#fff240ff"
 };
 

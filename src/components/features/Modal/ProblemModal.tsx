@@ -1,17 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { Button, Flex, Input, Modal, Space, Typography, Divider, Select } from 'antd';
 
 import { SaveOutlined } from '@ant-design/icons';
-
-import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import Paragraph from '@editorjs/paragraph';
-import ImageTool from '@editorjs/image';
-import Quote from '@editorjs/quote';
 import ProblemService from '../../../services/ProblemService';
 import { Difficulty, Problem } from '../../../constants/problems';
-import { ProblemCategoryLabel } from '../../../enums/ProblemCategory';
+import { ProblemCategory, ProblemCategoryLabel } from '../../../enums/ProblemCategory';
 import { ModalType } from '../../../pages/AdminDashboardPage';
+import { Editor } from '../../common/Editor';
+import MonacoEditor from '@monaco-editor/react';
+import { ProgrammingLanguage, ProgrammingLanguageLabel } from '../../../enums/ProgrammingLanguage';
 
 const { Title, Text } = Typography;
 
@@ -22,6 +19,7 @@ const initialData: Problem = {
   difficulty: Difficulty.EASY,
   id: '',
   acceptance: 0,
+  solutionByLanguage: {} as any
 };
 export const ProblemEditorModal = (props: {
   onClose: () => void;
@@ -29,8 +27,8 @@ export const ProblemEditorModal = (props: {
   setUpdate: Dispatch<SetStateAction<ModalType>>;
 }) => {
   const [problem, setProblem] = useState<Problem>(props?.data || initialData);
+  const [language, setLanguage] = useState<ProgrammingLanguage>(ProgrammingLanguage.PYTHON);
 
-  const editorRef = useRef<any>(null);
 
   const newProblem = !props?.data?.id;
 
@@ -49,76 +47,36 @@ export const ProblemEditorModal = (props: {
     }
   };
 
-  useEffect(() => {
-    if (editorRef.current) {
-      return;
-    }
-
-    const { blocks = [] } = problem;
-
-    editorRef.current = new EditorJS({
-      holder: 'editorjs-container',
-
-      placeholder: 'Write your coding problem here...',
-
-      tools: {
-        header: {
-          class: Header as any,
-          inlineToolbar: true,
-        },
-
-        paragraph: {
-          class: Paragraph as any,
-          inlineToolbar: true,
-        },
-
-        image: {
-          class: ImageTool,
-          config: {
-            uploader: {
-              async uploadByFile(file: any) {
-                return new Promise((resolve) => {
-                  const reader = new FileReader();
-
-                  reader.onload = () => {
-                    resolve({
-                      success: 1,
-                      file: {
-                        url: reader.result,
-                      },
-                    });
-                  };
-
-                  reader.readAsDataURL(file);
-                });
-              },
-            },
-          },
-        },
-        quote: {
-          class: Quote as any,
-          inlineToolbar: true,
-        },
+  const editorOption = useMemo(
+    () => ({
+      fontSize: 13,
+      fontFamily: "'Fira Code', 'Fira Mono', monospace",
+      fontLigatures: true,
+      background: "black!important",
+      lineHeight: 22,
+      minimap: { enabled: false },
+      scrollBeyondLastLine: false,
+      lineNumbers: 'on',
+      lineNumbersMinChars: 3,
+      renderLineHighlight: 'line',
+      tabSize: 4,
+      insertSpaces: true,
+      wordWrap: 'off',
+      folding: true,
+      bracketPairColorization: { enabled: true },
+      automaticLayout: true,
+      scrollbar: {
+        verticalScrollbarSize: 4,
+        horizontalScrollbarSize: 4,
       },
-
-      data: {
-        blocks: blocks,
-      },
-
-      async onChange(api, event) {
-        const savedData = await api.saver.save();
-        setProblem((prev) => ({ ...prev, blocks: savedData.blocks }));
-        console.log(savedData);
-      },
-    });
-
-    return () => {
-      if (editorRef.current?.destroy) {
-        editorRef.current.destroy();
-        editorRef.current = null;
-      }
-    };
-  }, []);
+      padding: { top: 24, bottom: 80 },
+      cursorBlinking: 'smooth',
+      smoothScrolling: true,
+      contextmenu: true,
+      suggest: { showKeywords: true },
+    }),
+    [],
+  );
 
   return (
     <Modal
@@ -187,7 +145,7 @@ export const ProblemEditorModal = (props: {
                   labelInValue
                   defaultValue={problem.difficulty}
                   styles={{ root: { border: '1px solid white', borderRadius: 5 } }}
-                  onChange={(val) => setProblem({ ...problem, difficulty: val.value })}
+                  onChange={(val: any) => setProblem({ ...problem, difficulty: val.value })}
                   options={[
                     {
                       value: Difficulty.EASY,
@@ -216,13 +174,13 @@ export const ProblemEditorModal = (props: {
                 size={'middle'}
                 defaultValue={problem.categories || []}
                 styles={{ root: { border: '1px solid white', borderRadius: 5 } }}
-                onChange={(values) => {
-                  const valueSet = values.map((v) => v.value);
+                onChange={(values: any) => {
+                  const valueSet = values.map((v: any) => v.value);
                   setProblem({ ...problem, categories: valueSet });
                 }}
-                options={Object.keys(ProblemCategoryLabel).map((category) => ({
+                options={[...Object.keys(ProblemCategoryLabel) as ProblemCategory[]].map((category) => ({
                   value: category,
-                  label: ProblemCategoryLabel[category],
+                  label: ProblemCategoryLabel[category as ProblemCategory],
                 }))}
               />
             </Flex>
@@ -240,15 +198,62 @@ export const ProblemEditorModal = (props: {
                   overflow: 'hidden',
                 }}
               >
-                <div
-                  id="editorjs-container"
-                  style={{
-                    minHeight: '500px',
-                    padding: '24px',
-                  }}
-                />
+                <Editor style={{ minHeight: '500px', padding: '24px' }} onChange={(blocks: any) => setProblem((prev) => ({ ...prev, blocks }))} data={problem.blocks} />
+
               </div>
             </div>
+
+            <Flex vertical gap={10}>
+              <Text strong>Default solution format</Text>
+
+              <Select
+                labelInValue
+                defaultValue={language}
+                styles={{ root: { border: '1px solid white', borderRadius: 5 } }}
+                onChange={(val: any) => setLanguage(val.value)}
+                options={[...Object.keys(ProgrammingLanguageLabel) as ProgrammingLanguage[]].map((language, _) => ({ value: language, label: ProgrammingLanguageLabel[language] }))}
+              />
+              <div
+                style={{
+                  marginTop: 12,
+                  borderRadius: 10,
+                  border: '1px solid #d9d9d9',
+                  overflow: 'hidden',
+                  height: 400
+                }}
+              >
+
+
+                <MonacoEditor
+                  height="100%"
+                  value={problem.solutionByLanguage && problem.solutionByLanguage[language] || ''}
+                  theme="vs-dark"
+                  className="monaco-editor"
+                  onChange={(solution: string = '') => {
+                    if (language) {
+                      //@ts-ignore
+                      setProblem((prev) => ({ ...prev, solutionByLanguage: { ...prev?.solutionByLanguage, [language]: solution } }))
+                    }
+                  }}
+                  options={editorOption as any}
+                />
+
+              </div>
+            </Flex>
+            <Flex vertical gap={10} >
+              <Text strong>Input output</Text>
+              <MonacoEditor
+                height={300}
+                value={problem.ioByLanguage && problem.ioByLanguage[language] || ''}
+                theme="vs-dark"
+                className="monaco-editor"
+                onChange={(solution: string = '') => {
+                  //@ts-ignore
+                  setProblem((prev) => ({ ...prev, ioByLanguage: { ...(prev?.ioByLanguage || {}), [language]: solution } }))
+                }}
+                options={editorOption as any}
+              />
+            </Flex>
           </Space>
         </div>
 
