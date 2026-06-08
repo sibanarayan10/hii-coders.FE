@@ -155,7 +155,7 @@ export const Navbar = () => {
 
             {showLandingNav ? (
                 <Space size={10}>
-                    <AppButton buttonVariant="outline" style={{ height: 34, padding: "0 18px", fontSize: 13 }} onClick={() => navigate("/sign-up")}>
+                    <AppButton buttonVariant="outline" style={{ height: 34, padding: "0 18px", fontSize: 13 }} onClick={() => navigate("/sign-in")}>
                         Sign In
                     </AppButton>
                     <AppButton buttonVariant="primary" style={{ height: 34, padding: "0 18px", fontSize: 13 }} onClick={() => navigate("/problems")}>

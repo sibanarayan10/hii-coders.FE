@@ -131,6 +131,18 @@ const GLOBAL_STYLES = `
     .monaco-editor{
     background: black !important;
     }
+    code {
+    background: rgba(108,99,255,0.15) !important;
+    border: 1px solid rgba(108,99,255,0.25) !important;
+    color: ${THEME.accentBlue} !important;
+    border-radius: 4px !important;
+    padding: 1px 6px !important;
+    font-size: 0.9em !important;
+    font-family: 'Fira Code', monospace !important;
+}
+    .monaco-editor{
+    background: black !important;
+    }
   /* ── Modal ── */
   .ant-modal-content { padding: 0 !important; overflow: hidden; border-radius: 16px !important; }
 

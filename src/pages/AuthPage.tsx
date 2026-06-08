@@ -22,6 +22,8 @@ import { COLORS, THEME } from '../constants/theme';
 import { AppButton } from '../components/common/AppButton';
 import UserService from "../services/UserService";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { UserRole, UserRoleLabel } from "../enums/UserRole";
 
 const { Title, Text } = Typography;
 
@@ -335,6 +337,7 @@ const LoginForm = () => {
 
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const { setUser } = useAuth();
 
     const handleSubmit = async (values: any) => {
         setLoading(true);
@@ -342,6 +345,8 @@ const LoginForm = () => {
             const res = await UserService.loginUser(values);
             if (res.data) {
                 navigate("/problems");
+                setUser({ ...res.data, role: UserRoleLabel[res.data.role as keyof typeof UserRole] });
+
             }
         } catch (error) {
             console.error(error);
@@ -467,7 +472,6 @@ export const AuthPage = () => {
     const location = useLocation();
 
     useEffect(() => {
-        debugger;
         if (location.pathname === "/sign-in") {
             setMode("login");
         } else if (location.pathname === "/sign-up") {

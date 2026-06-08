@@ -6,10 +6,12 @@ import ProblemsPage from './pages/ProblemsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import NotFoundPage from './pages/FallbackPage';
 import { AuthProvider } from './contexts/AuthContext';
-import AdminDashboard from './pages/AdminDashboardPage';
 import { AppConfigProvider } from './contexts/AppConfigProvider';
 import { ProblemSolvePage } from './pages/ProblemSolvePage';
 import { AuthPage } from './pages/AuthPage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminProblemsPage from './pages/admin/AdminProblemsPage';
+import AdminAnalyticsPage from './pages/admin/AdminAnalyticsPage';
 
 const App = () => (
   <Router>
@@ -23,7 +25,9 @@ const App = () => (
           <Route path="/sign-in" element={<AuthPage />} />
           <Route path="/problems/:id" element={<ProblemSolvePage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/problems" element={<AdminProblemsPage />} />
+          <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
 

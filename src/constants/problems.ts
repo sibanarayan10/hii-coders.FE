@@ -1,6 +1,7 @@
 import { OutputBlockData } from '@editorjs/editorjs';
 import { ProblemCategory } from '../enums/ProblemCategory';
 import { ProgrammingLanguage } from '../enums/ProgrammingLanguage';
+import { Company } from '../enums/Company';
 
 export enum STATUS {
   SOLVED = 'SOLVED',
@@ -21,6 +22,7 @@ export interface Problem {
   title: string;
   status?: Status;
   difficulty: Difficulty;
+  companies: Company[],
   categories: ProblemCategory[];
   acceptance: number;
   blocks: OutputBlockData[];

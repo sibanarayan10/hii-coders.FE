@@ -1,6 +1,4 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { api } from '../services/AxiosConfig';
-import { useNavigate } from 'react-router-dom';
 import { UserRole } from '../enums/UserRole';
 import UserService from '../services/UserService';
 

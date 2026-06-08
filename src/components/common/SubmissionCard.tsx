@@ -85,23 +85,37 @@ const SUBMISSION_CONFIG: Record<
 
 export function SubmissionsPanel({ problemId, submissionId }: { problemId: string, submissionId: string }): JSX.Element {
     const [submissions, setSubmissions] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const getSubmission = async () => {
+        setLoading(true);
         try {
             const res = await SubmissionService.getSubmission(problemId);
             if (res.data) {
                 setSubmissions(res.data);
-
             }
 
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     }
 
     useEffect(() => {
         getSubmission();
     }, [submissionId]);
+
+    if (loading) {
+        return <div
+            style={{
+                textAlign: "center",
+                padding: "60px 0",
+            }}
+        >
+            <Spin indicator={<LoadingOutlined style={{ color: COLORS.primary, fontSize: 24 }} spin />} />
+        </div>
+    }
 
     if (submissions.length === 0) {
         return (
@@ -280,7 +294,7 @@ const SubmissionCard = ({
     );
 };
 
-const timeAgo = (createdAt: string | Date): string => {
+export const timeAgo = (createdAt: string | Date): string => {
     const now = new Date();
     const past = new Date(createdAt);
     const diffMs = now.getTime() - past.getTime();
