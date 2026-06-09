@@ -215,7 +215,7 @@ export const FilterModal = ({ onClose, filters, setFilters, onClear, loading }: 
   );
 };
 
-const ColHeader = ({ children }: { children: React.ReactNode }) => (
+export const ColHeader = ({ children }: { children: React.ReactNode }) => (
   <Text style={{ color: THEME.textSecondary, fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{children}</Text>
 );
 

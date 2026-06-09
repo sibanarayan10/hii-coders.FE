@@ -1,50 +1,50 @@
 import { Flex, Space, Typography } from "antd";
 import { THEME } from "../../constants/theme";
 import { AppButton } from "./AppButton";
-import { BellOutlined, HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ProfilePopover } from "./ProfilePopover";
 
 const { Text } = Typography;
 
 interface INavLink {
     label: string;
-    path: string;
+    exp: RegExp;
     active: boolean;
+    path: string
 }
 
 const NAV_LINKS: INavLink[] = [{
     label: "Problems",
-    path: "/problems",
-    active: false
+    exp: /^\/problems(\/.*)?$/,
+    active: false,
+    path: "/problems"
 },
 {
     label: "Dashboard",
-    path: "/dashboard",
-    active: false
+    exp: /^\/dashboard(\/.*)?$/,
+    active: false,
+    path: "/dashboard"
 },
 {
     label: "Contests",
-    path: "/contests",
-    active: false
+    exp: /^\/contests(\/.*)?$/,
+    active: false,
+    path: "/contests"
 },
 {
     label: "Community",
-    path: "/community",
-    active: false
+    exp: /^\/community(\/.*)?$/,
+    active: false,
+    path: "/community"
 }]
 
 export const Navbar = () => {
-
-    const breadcrumbItems = [
-        { label: "Home", icon: <HomeOutlined />, onClick: () => { } },
-        { label: "Problems", onClick: () => { } },
-        { label: "Trapping Rain Water" },
-    ];
-
     const [showLandingNav, setShowLandingNav] = useState(false);
     const [navLinks, setNavLinks] = useState(NAV_LINKS);
     const [showNavbar, setShowNavbar] = useState<boolean>(false);
+    const [showProfile, setShowProfile] = useState<boolean>(false);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -54,7 +54,7 @@ export const Navbar = () => {
         setNavLinks((prevLinks) =>
             prevLinks.map((l) => ({
                 ...l,
-                active: l.path === path,
+                active: l.exp.test(path),
             }))
         );
     }
@@ -81,7 +81,7 @@ export const Navbar = () => {
         left: 0,
         right: 0,
         zIndex: 100,
-        height: 80,
+        height: 40,
     }}>
         <nav
             style={{
@@ -178,7 +178,8 @@ export const Navbar = () => {
                             cursor: "pointer",
                         }}
                     >
-                        <UserOutlined style={{ color: "#fff", fontSize: 15 }} />
+                        <UserOutlined style={{ color: "#fff", fontSize: 15 }} onClick={() => setShowProfile(prev => !prev)} />
+                        {showProfile && <ProfilePopover onClose={() => { setShowProfile(false) }} />}
                     </div>
                 </Space>
             )}

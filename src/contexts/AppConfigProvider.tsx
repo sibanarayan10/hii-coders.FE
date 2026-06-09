@@ -1,9 +1,7 @@
 import { ConfigProvider, theme } from "antd";
 import { Navbar } from "../components/common/Navbar";
 import { THEME } from "../constants/theme";
-import {
-    HomeOutlined,
-} from "@ant-design/icons";
+import { AppBreadCrumb } from "../components/common/AppBreadCrumb";
 
 
 const ANT_THEME = {
@@ -156,14 +154,7 @@ const GLOBAL_STYLES = `
 
 export const AppConfigProvider = ({
     children,
-
 }: { children: React.ReactNode }) => {
-
-    const breadcrumbItems = [
-        { label: "Home", icon: <HomeOutlined />, onClick: () => { } },
-        { label: "Problems", onClick: () => { } },
-        { label: "Trapping Rain Water" },
-    ];
     return (
         <ConfigProvider theme={ANT_THEME}>
             <style>{GLOBAL_STYLES}</style>
@@ -173,10 +164,11 @@ export const AppConfigProvider = ({
                 style={{
                     background: THEME.bg,
                     minHeight: "100vh",
-                    paddingTop: 80,
+                    paddingTop: 50,
                     color: THEME.textPrimary,
                 }}
             >
+                <AppBreadCrumb />
                 {children}
             </div>
         </ConfigProvider>

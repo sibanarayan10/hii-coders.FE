@@ -15,9 +15,10 @@ import AdminAnalyticsPage from './pages/admin/AdminAnalyticsPage';
 
 const App = () => (
   <Router>
-    <AppConfigProvider >
+    <AuthProvider>
+      <AppConfigProvider >
 
-      <AuthProvider>
+
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/problems" element={<ProblemsPage />} />
@@ -30,9 +31,9 @@ const App = () => (
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+      </AppConfigProvider>
 
-      </AuthProvider>
-    </AppConfigProvider>
+    </AuthProvider>
 
   </Router >
 );

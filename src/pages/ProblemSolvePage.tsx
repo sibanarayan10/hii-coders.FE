@@ -32,6 +32,8 @@ import { useAuth } from "../contexts/AuthContext";
 import SubmissionService from "../services/Submission";
 import SolutionService from "../services/SolutionService";
 import { SubmissionsPanel } from "../components/common/SubmissionCard";
+import { useTimer, UseTimerReturn } from "../hooks/useTimer";
+import { TimerWidget } from "../components/common/TimerWidget";
 
 
 
@@ -159,7 +161,7 @@ const TestCaseTab = ({ label, active, onClick }: { label: string, active: boolea
 
 
 
-const MonacoEditorMock = ({ code, setCode, language, setLanguage }: { code: string, setCode: Dispatch<SetStateAction<string>>, language: ProgrammingLanguage, setLanguage: Dispatch<SetStateAction<ProgrammingLanguage>> }) => {
+const MonacoEditorMock = ({ code, setCode, language, setLanguage, timer }: { code: string, setCode: Dispatch<SetStateAction<string>>, language: ProgrammingLanguage, setLanguage: Dispatch<SetStateAction<ProgrammingLanguage>>, timer: UseTimerReturn }) => {
 
   const debounce = (fn: any, delay: number) => {
     let timer: any;
@@ -338,24 +340,7 @@ const MonacoEditorMock = ({ code, setCode, language, setLanguage }: { code: stri
             />
 
           </Tooltip>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              background: "#161b2e",
-              border: `1px solid ${THEME.bgCardBorder}`,
-              borderRadius: 8,
-              padding: "5px 12px",
-            }}
-          >
-            <ClockCircleOutlined style={{ color: THEME.textSecondary, fontSize: 14 }} />
-            <div style={{ textAlign: "center" }}>
-              <Text style={{ color: THEME.textPrimary, fontFamily: "'Fira Code',monospace", fontSize: 13, fontWeight: 600, display: "block", lineHeight: "16px" }}>
-                00:15:3
-              </Text>
-            </div>
-          </div>
+          <TimerWidget timer={timer} />
 
         </Space>
       </Flex>
@@ -534,7 +519,7 @@ export const ProblemSolvePage = () => {
   const [activeTab, setActiveTab] = useState<"description" | "submissions">("description");
   const [submissionId, setSubmissionId] = useState<string>();
 
-
+  const timer = useTimer();
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
 
@@ -652,7 +637,7 @@ export const ProblemSolvePage = () => {
     <>
       {contextHolder}
 
-      <div tabIndex={0} style={{ background: THEME.bg, minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <div tabIndex={0} style={{ background: THEME.bg, display: "flex", flexDirection: "column" }}>
 
         <div
           style={{
@@ -673,7 +658,7 @@ export const ProblemSolvePage = () => {
             }}
 
           >
-            <MonacoEditorMock code={code} setCode={setCode} language={language} setLanguage={setLanguage} />
+            <MonacoEditorMock code={code} setCode={setCode} language={language} setLanguage={setLanguage} timer={timer} />
           </div>
 
           {/* RIGHT: Description panel */}
