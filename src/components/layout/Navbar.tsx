@@ -1,10 +1,10 @@
 import { Flex, Space, Typography } from "antd";
 import { THEME } from "../../constants/theme";
-import { AppButton } from "./AppButton";
+import { AppButton } from "../common/AppButton";
 import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ProfilePopover } from "./ProfilePopover";
+import { ProfilePopover } from "../common/ProfilePopover";
 
 const { Text } = Typography;
 
@@ -62,7 +62,7 @@ export const Navbar = () => {
     useEffect(() => {
         updateNavlinks(location.pathname)
         const params = location.pathname.split('/');
-        const isAuth = params.includes('sign-in') || params.includes('sign-up');
+        const isAuth = params.includes('auth');
         setShowNavbar(!isAuth);
         if (location.pathname === "/") {
             setShowLandingNav(true);
@@ -155,7 +155,7 @@ export const Navbar = () => {
 
             {showLandingNav ? (
                 <Space size={10}>
-                    <AppButton buttonVariant="outline" style={{ height: 34, padding: "0 18px", fontSize: 13 }} onClick={() => navigate("/sign-in")}>
+                    <AppButton buttonVariant="outline" style={{ height: 34, padding: "0 18px", fontSize: 13 }} onClick={() => navigate("/auth/sign-in")}>
                         Sign In
                     </AppButton>
                     <AppButton buttonVariant="primary" style={{ height: 34, padding: "0 18px", fontSize: 13 }} onClick={() => navigate("/problems")}>

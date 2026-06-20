@@ -27,7 +27,7 @@ import {
 import { THEME } from "../constants/theme";
 import { AppButton } from "../components/common/AppButton";
 import { SectionTitle } from "../components/common/SectionTitle";
-import { AppCard } from "../components/common/AppCard";
+import { AppCard } from "../components/common/cards/AppCard";
 import { useNavigate } from "react-router-dom";
 
 const { Title, Text, Paragraph } = Typography;

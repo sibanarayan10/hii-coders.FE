@@ -1,5 +1,5 @@
 import { ConfigProvider, theme } from "antd";
-import { Navbar } from "../components/common/Navbar";
+import { Navbar } from "../components/layout/Navbar";
 import { THEME } from "../constants/theme";
 import { AppBreadCrumb } from "../components/common/AppBreadCrumb";
 

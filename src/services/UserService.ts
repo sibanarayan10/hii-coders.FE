@@ -11,7 +11,8 @@ class UserService {
   getUserMetrics = () => api.get(`${this.baseRoute}/metrics`);
   toggleUserStatus = (id: string, recordStatus: "ACTIVE" | "DELETED") => api.put(`${this.baseRoute}/${id}?status=${recordStatus}`);
   getDashboardStats = (userId: string) => api.get(`${this.baseRoute}/${userId}/dashboard`)
-
+  getResetLink = (email: string) => api.get(`${this.baseRoute}/auth/forgot-password?email=${email}`)
+  resetPassword = (password: string, token: string) => api.post(`${this.baseRoute}/auth/reset-password?token=${token}`, { password })
 }
 
 export default new UserService();

@@ -553,7 +553,6 @@ export const CreateProblemModal = ({
     onClose: () => void;
     data: any
 }) => {
-    debugger;
 
 
     const [title, setTitle] = useState(data?.title || '');
@@ -565,7 +564,6 @@ export const CreateProblemModal = ({
     const [boilerCodeByLang, setBoilerCodeByLang] = useState<Record<ProgrammingLanguage, string>>(data?.solutionByLanguage || {});
     const [outputCodeByLang, setOutputCodeByLang] = useState<Record<ProgrammingLanguage, string>>(data?.ioByLanguage || {});
     const [description, setDescription] = useState<OutputBlockData[]>(data?.blocks || []);
-
 
 
     const handleSave = async () => {

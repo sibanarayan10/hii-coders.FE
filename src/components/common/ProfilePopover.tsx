@@ -26,7 +26,7 @@ export const ProfilePopover = ({ onClose }: ProfilePopoverProps) => {
     const handleLogout = async () => {
         await logout();
         onClose();
-        navigate('/sign-in');
+        navigate('/auth/sign-in');
     };
 
     const handleAvatarChange = (file: File) => {

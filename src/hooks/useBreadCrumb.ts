@@ -19,7 +19,6 @@ const ROUTE_LABEL_MAP: Record<string, string> = {
 };
 
 export const useBreadCrumb = (): BreadcrumbItem[] => {
-    debugger;
 
     const location = useLocation();
     const params = matchPath("/problems/:id", location.pathname);

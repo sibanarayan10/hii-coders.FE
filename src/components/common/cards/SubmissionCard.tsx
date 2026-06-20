@@ -9,11 +9,11 @@ import {
     CodeOutlined,
     LoadingOutlined
 } from '@ant-design/icons';
-import SubmissionService from '../../services/Submission'
-import { COLORS, THEME } from '../../constants/theme';
-import { ProgrammingLanguage, ProgrammingLanguageLabel } from '../../enums/ProgrammingLanguage';
-import { connectWebSocket, disconnectWebSocket } from '../../services/WebSocketConfig';
-import { SubmissionStatus } from '../../enums/SubmissionStatus';
+import SubmissionService from '../../../services/Submission'
+import { COLORS, THEME } from '../../../constants/theme';
+import { ProgrammingLanguage, ProgrammingLanguageLabel } from '../../../enums/ProgrammingLanguage';
+import { connectWebSocket, disconnectWebSocket } from '../../../services/WebSocketConfig';
+import { SubmissionStatus } from '../../../enums/SubmissionStatus';
 
 const { Text } = Typography;
 

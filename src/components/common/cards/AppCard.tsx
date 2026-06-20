@@ -1,5 +1,6 @@
 import { Card, CardProps } from "antd";
-import { THEME } from "../../constants/theme";
+import { THEME } from "../../../constants/theme";
+
 
 type AppCardProps = CardProps & {
     children: React.ReactNode;

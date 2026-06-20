@@ -12,7 +12,7 @@ export const AppBreadCrumb = () => {
     const location = useLocation();
     const [searchOpen, setSearchOpen] = useState(false);
 
-    const hideBreadCrumb = location.pathname.split('/').includes("sign-in") || location.pathname.split('/').includes("sign-up")
+    const hideBreadCrumb = location.pathname.split('/').includes("auth");
     const showSearchIcon = crumbs.length === 3 && crumbs[1]?.label === 'Problems';
 
     // Don't show on the landing page or auth pages

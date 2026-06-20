@@ -23,7 +23,7 @@ import {
 
 import { AppButton } from "../../components/common/AppButton";
 import { COLORS, THEME } from "../../constants/theme";
-import { timeAgo } from "../../components/common/SubmissionCard";
+import { timeAgo } from "../../components/common/cards/SubmissionCard";
 import { ADMIN, AdminBreadcrumb, AdminCard, AdminPageTitle, AdminStatCard } from ".";
 import UserService from "../../services/UserService";
 import { User } from "../../contexts/AuthContext";

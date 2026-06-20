@@ -31,7 +31,7 @@ import { COLORS, THEME } from "../constants/theme";
 import { useAuth } from "../contexts/AuthContext";
 import SubmissionService from "../services/Submission";
 import SolutionService from "../services/SolutionService";
-import { SubmissionsPanel } from "../components/common/SubmissionCard";
+import { SubmissionsPanel } from "../components/common/cards/SubmissionCard";
 import { useTimer, UseTimerReturn } from "../hooks/useTimer";
 import { TimerWidget } from "../components/common/TimerWidget";
 

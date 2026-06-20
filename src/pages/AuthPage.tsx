@@ -24,6 +24,7 @@ import UserService from "../services/UserService";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { UserRole, UserRoleLabel } from "../enums/UserRole";
+import { AuthCard } from "../components/common/cards/AuthCard";
 
 const { Title, Text } = Typography;
 
@@ -137,20 +138,7 @@ export const SocialButton = ({ icon, label, onClick }: { icon: React.ReactNode, 
 );
 
 
-export const AuthCard = ({ children }: { children: React.ReactNode }) => (
-    <div style={{
-        background: "rgba(13,21,48,0.85)",
-        border: `1px solid ${THEME.bgCardBorder}`,
-        borderRadius: 18,
-        padding: "44px 40px 36px",
-        width: "100%",
-        maxWidth: 420,
-        backdropFilter: "blur(20px)",
-        boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
-    }}>
-        {children}
-    </div>
-);
+
 
 const RegisterForm = () => {
     const [password, setPassword] = useState("");
@@ -166,7 +154,7 @@ const RegisterForm = () => {
         try {
             const res = await UserService.createUser(values);
             if (res.data) {
-                navigate("/sign-in");
+                navigate("/auth/sign-in");
             }
         } catch (error) {
             console.error(error);
@@ -306,10 +294,16 @@ const RegisterForm = () => {
                 <SocialButton
                     icon={<GithubOutlined style={{ fontSize: 16 }} />}
                     label="Github"
+                    onClick={() => {
+                        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/oauth2/authorization/github`
+                    }}
                 />
                 <SocialButton
                     icon={<GoogleOutlined style={{ fontSize: 16 }} />}
                     label="Google"
+                    onClick={() => {
+                        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/oauth2/authorization/google`
+                    }}
                 />
             </div>
 
@@ -319,7 +313,7 @@ const RegisterForm = () => {
                     Already have an account?{" "}
                     <span
                         onClick={() => {
-                            navigate("/sign-in")
+                            navigate("/auth/sign-in")
                         }}
                         style={{ color: THEME.accent, fontWeight: 600, cursor: "pointer" }}
                     >
@@ -354,6 +348,8 @@ const LoginForm = () => {
             setLoading(false);
         }
     };
+
+
 
     return (
         <AuthCard>
@@ -407,7 +403,7 @@ const LoginForm = () => {
                 />
 
                 {/* Forgot password */}
-                <div style={{ textAlign: "right", marginTop: -14, marginBottom: 20 }}>
+                <div style={{ textAlign: "right", marginTop: -14, marginBottom: 20 }} onClick={() => navigate("/auth/forget-password")}>
                     <Text style={{ color: THEME.accent, fontSize: 13, cursor: "pointer", fontWeight: 500 }}>
                         Forgot password?
                     </Text>
@@ -455,7 +451,7 @@ const LoginForm = () => {
                 <Text style={{ color: THEME.textSecondary, fontSize: 13 }}>
                     Don't have an account?{" "}
                     <span
-                        onClick={() => navigate("/sign-up")}
+                        onClick={() => navigate("/auth/sign-up")}
                         style={{ color: THEME.accent, fontWeight: 600, cursor: "pointer" }}
                     >
                         Sign Up
@@ -472,9 +468,9 @@ export const AuthPage = () => {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.pathname === "/sign-in") {
+        if (location.pathname === "/auth/sign-in") {
             setMode("login");
-        } else if (location.pathname === "/sign-up") {
+        } else if (location.pathname === "/auth/sign-up") {
             setMode("register");
         }
     }, [location])
