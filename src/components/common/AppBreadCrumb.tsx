@@ -102,7 +102,7 @@ export const AppBreadCrumb = () => {
     return (
         <div
             style={{
-                padding: '10px 28px',
+                padding: '3px 28px',
                 borderBottom: `1px solid ${THEME.bgCardBorder}`,
                 background: 'rgba(10,15,30,0.6)',
                 backdropFilter: 'blur(8px)',

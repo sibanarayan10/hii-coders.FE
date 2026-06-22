@@ -9,6 +9,7 @@ import {
   Tooltip,
   message,
   Spin,
+  Badge,
 
 } from "antd";
 import {
@@ -34,6 +35,7 @@ import SolutionService from "../services/SolutionService";
 import { SubmissionsPanel } from "../components/common/cards/SubmissionCard";
 import { useTimer, UseTimerReturn } from "../hooks/useTimer";
 import { TimerWidget } from "../components/common/TimerWidget";
+import { usePresence } from "../hooks/usePresence";
 
 
 
@@ -364,6 +366,8 @@ const ProblemDescription = ({ problem, activeTab, setActiveTab, submissionId }: 
   const [activeCase, setActiveCase] = useState(0);
   const [testCases, setTestCases] = useState<any[]>([]);
 
+  const { viewerCount } = usePresence(problem.id);
+
   const getTestCase = async () => {
     if (!problem.id) {
       return;
@@ -431,9 +435,8 @@ const ProblemDescription = ({ problem, activeTab, setActiveTab, submissionId }: 
               >
                 {problem.title}
               </Title>
-              <Text style={{ color: THEME.textSecondary, fontSize: 13, fontStyle: "italic", alignSelf: "flex-end" }}>
-                {problem.activeUsers || 1} users solving this...
-              </Text>
+
+              <Badge status="success" text={viewerCount || 0} styles={{root:{color:"white"}}}/>
             </div>
 
             {/* Badges row — reuse DifficultyBadge + company tags */}

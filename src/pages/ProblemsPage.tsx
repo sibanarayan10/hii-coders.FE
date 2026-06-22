@@ -43,9 +43,9 @@ const ProblemsPage = () => {
 
   return (
     <div style={{ maxWidth: 820, margin: "0 auto", padding: "72px 24px 40px" }}>
-      <Space direction='vertical' style={{ width: '100%', height: "100px" }}>
+      {/* <Space direction='vertical' style={{ width: '100%', height: "100px" }}>
         <PulseLine period="30D" />
-      </Space>
+      </Space> */}
       <Title level={2} style={{ color: THEME.textPrimary, fontFamily: "'Space Grotesk',sans-serif", fontWeight: 700, fontSize: 26, marginBottom: 22 }}>
         Explore Problems
       </Title>

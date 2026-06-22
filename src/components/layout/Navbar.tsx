@@ -15,30 +15,32 @@ interface INavLink {
     path: string
 }
 
-const NAV_LINKS: INavLink[] = [{
-    label: "Problems",
-    exp: /^\/problems(\/.*)?$/,
-    active: false,
-    path: "/problems"
-},
-{
-    label: "Dashboard",
-    exp: /^\/dashboard(\/.*)?$/,
-    active: false,
-    path: "/dashboard"
-},
-{
-    label: "Contests",
-    exp: /^\/contests(\/.*)?$/,
-    active: false,
-    path: "/contests"
-},
-{
-    label: "Community",
-    exp: /^\/community(\/.*)?$/,
-    active: false,
-    path: "/community"
-}]
+// const NAV_LINKS: INavLink[] = [{
+//     label: "Problems",
+//     exp: /^\/problems(\/.*)?$/,
+//     active: false,
+//     path: "/problems"
+// },
+// {
+//     label: "Dashboard",
+//     exp: /^\/dashboard(\/.*)?$/,
+//     active: false,
+//     path: "/dashboard"
+// },
+// {
+//     label: "Contests",
+//     exp: /^\/contests(\/.*)?$/,
+//     active: false,
+//     path: "/contests"
+// },
+// {
+//     label: "Community",
+//     exp: /^\/community(\/.*)?$/,
+//     active: false,
+//     path: "/community"
+// }]
+
+const NAV_LINKS: INavLink[] =[]
 
 export const Navbar = () => {
     const [showLandingNav, setShowLandingNav] = useState(false);
